@@ -1,3 +1,7 @@
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
+
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -122,13 +126,19 @@ int main()
 	glBindVertexArray(0);
 
 
-	// Specify the color of the background
-	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-	// Clean the back buffer and assign the new color to it
-	glClear(GL_COLOR_BUFFER_BIT);
-	// Swap back and front buffer
-	glfwSwapBuffers(window);
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	// ImGui::StyleColorsClassic();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+	
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
 	{
@@ -146,6 +156,8 @@ int main()
 		// Take care of all GLFW events
 		glfwPollEvents();
 	}
+
+	
 
 	// Delete all the objects we've created
 	glDeleteVertexArrays(1, &VAO);
