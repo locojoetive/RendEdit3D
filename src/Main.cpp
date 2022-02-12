@@ -48,14 +48,6 @@ int main()
 
 
 
-	// Vertices coordinates
-	GLfloat vertices[] =
-	{
-		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.f,		// Lower left corner
-		0.5f, -0.5f * float(sqrt(3)) / 3, 0.f,		// Lower right corner
-		0.f, 0.5f * float(sqrt(3)) * 2 / 3, 0.f		// 
-	};
-
 
 	// Create a GLFWwindow object, called "Tutorial"
 	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Tutorial", NULL, NULL);
@@ -103,12 +95,37 @@ int main()
 	glDeleteShader(fragmentShader);
 
 
-	// Create reference containers for the Vertex Array Object and the Vertex Buffer Object
-	GLuint VAO, VBO;
+	// Vertices coordinates
+	GLfloat vertices[] =
+	{
+		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.f,		// Lower left corner
+		0.5f, -0.5f * float(sqrt(3)) / 3, 0.f,		// Lower right corner
+		0.f, float(sqrt(3)) / 3, 0.f,				// Upper Corner
+		- 0.25f, 0.5f * float(sqrt(3)) / 6, 0.f,	// Inner Left
+		0.25f, 0.5f * float(sqrt(3)) / 6, 0.f,		// Inner Right
+		0.f, -0.5f * float(sqrt(3)) / 3, 0.f		// Inner Down
+	};
+	// Order of inidec
+	GLuint indices[] =
+	{
+		0, 3, 5,	// Lower Left Triangle
+		3, 2, 4,	// Lower Right Triangle
+		5, 4, 1		// Upper Triangle
+	};
+
+
+	/* Create reference containers for 
+	*	VAO: Vertex Array Object 
+	*	VBO: Vertex Buffer Object
+	*	IBO: Index Buffer Object 
+	*/
+	GLuint VAO, VBO, EBO;
 	// Generate the Vertex Array Object
 	glGenVertexArrays(1, &VAO);
 	// Generate the Vertex Buffer Object
 	glGenBuffers(1, &VBO);
+	// Generate the Index Buffer Object
+	glGenBuffers(1, &EBO);
 
 	// Make the VAO the current Vertex Array Object by binding it 
 	glBindVertexArray(VAO);
@@ -118,14 +135,21 @@ int main()
 	// Introduce the vertices into the VBO
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+	// Bind the EBO specifying its a GL_ELEMENT_ARRAY_BUFFER
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	// Link EBO to the indices array
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 	// Configure the Vertex Attribute so that OpenGL knows how to read the VBO
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	// Enable the Vertex Attribute so that OpenGL knows to use it
 	glEnableVertexAttribArray(0);
 
-	// Bind both the VBO and VAO to 0 so that we don't accidentally modify the VBO and VAO
+	// Unbind both the VBO and VAO to 0 so that we don't accidentally modify the VBO and VAO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+	// Unbínd EBO after VAO, since the EBO is stored inside the VAO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
 	// Setup Dear ImGui context
@@ -144,8 +168,6 @@ int main()
 	bool drawTriangle = true;
 	float size = 1.f;
 	float color[4] = { .8f, .3f, .02, 1.f };
-	// Tell OpenGL which Shader Program we want to use
-	glUseProgram(shaderProgram);
 
 
 	// Main loop: keep window open until closed
@@ -161,13 +183,21 @@ int main()
 		ImGui::NewFrame();
 
 
-		// Bind the VAO so OpenGL knows to use it
-		glBindVertexArray(VAO);
 
 		// Only draw the triangle when the checkbox is ticked
 		if (drawTriangle)
 		{
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+
+			// Tell OpenGL which Shader Program we want to use
+			glUseProgram(shaderProgram);
+			// Bind the VAO so OpenGL knows to use it
+			glBindVertexArray(VAO);
+
+			// Draw plain old triangle
+			// glDrawArrays(GL_TRIANGLES, 0, 3);
+
+			// Draw new cool Triforce!
+			glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 		}
 
 		// ImGUI window creation
@@ -207,6 +237,7 @@ int main()
 	// Delete all the objects we've created
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 	glDeleteProgram(shaderProgram);
 
 	glfwDestroyWindow(window);
