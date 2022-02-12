@@ -139,23 +139,42 @@ int main()
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 	
+	// Tell OpenGL which Shader Program we want to use
+	glUseProgram(shaderProgram);
+
+
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
 	{
 
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		// Tell OpenGL which Shader Program we want to use
-		glUseProgram(shaderProgram);
+
+		// declare new ImGui Frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+
 		// Bind the VAO so OpenGL knows to use it
 		glBindVertexArray(VAO);
 		// Draw the triangle using the GL_TRIANGLES primitive
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		// Render UI Elements
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
 		glfwSwapBuffers(window);
 
 		// Take care of all GLFW events
 		glfwPollEvents();
 	}
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 	
 
