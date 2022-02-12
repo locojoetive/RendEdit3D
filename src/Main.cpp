@@ -14,9 +14,10 @@
 const char* vertexShaderSource =
 "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
+"uniform float size;\n"
 "void main()\n"
 "{\n"
-"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"	gl_Position = vec4(size * aPos.x, size * aPos.y, size* aPos.z, 1.0);\n"
 "}\0"
 ;
 
@@ -24,9 +25,10 @@ const char* vertexShaderSource =
 const char* fragmentShaderSource =
 "#version 330 core\n"
 "out vec4 FragColor;\n"
+"uniform vec4 color;\n"
 "void main()\n"
 "{\n"
-"	FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);\n"
+"	FragColor = color;\n"
 "}\n\0"
 ;
 
@@ -139,6 +141,9 @@ int main()
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 	
+	bool drawTriangle = true;
+	float size = 1.f;
+	float color[4] = { .8f, .3f, .02, 1.f };
 	// Tell OpenGL which Shader Program we want to use
 	glUseProgram(shaderProgram);
 
@@ -158,10 +163,31 @@ int main()
 
 		// Bind the VAO so OpenGL knows to use it
 		glBindVertexArray(VAO);
-		// Draw the triangle using the GL_TRIANGLES primitive
-		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		// Render UI Elements
+		// Only draw the triangle when the checkbox is ticked
+		if (drawTriangle)
+		{
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+		}
+
+		// ImGUI window creation
+		ImGui::Begin("Modify Triangle");
+		// Checkbox that appears in window
+		ImGui::Checkbox("Draw Triangle", &drawTriangle);
+		// Slider that appears in window
+		ImGui::SliderFloat("Size", &size, .5f, 2.f);
+		// Color Picker that appears in window
+		ImGui::ColorEdit4("Color", color);
+		// Closes/Deletes the window
+		ImGui::End();
+
+
+		// export variables to shader
+		// glUseProgram(shaderProgram);
+		glUniform1f(glGetUniformLocation(shaderProgram, "size"), size);
+		glUniform4f(glGetUniformLocation(shaderProgram, "color"), color[0], color[1], color[2], color[3]);
+
+		// Render ImGUI Elements
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
