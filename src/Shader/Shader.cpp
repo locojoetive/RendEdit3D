@@ -34,6 +34,8 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	glShaderSource(vertexShader, 1, &vertexSource, NULL);
 	// Compile the Vertex Shader into machine code
 	glCompileShader(vertexShader);
+	// Output compile errors
+	compileErrors(vertexShader, "VERTEX");
 
 	// Create Fragment Shader Object and get its reference
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -41,6 +43,8 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
 	// Compile the Vertex Shader into machine code
 	glCompileShader(fragmentShader);
+	// Output compile errors
+	compileErrors(fragmentShader, "FRAGMENT");
 
 	// Create Shader Program
 	ID = glCreateProgram();
@@ -49,6 +53,7 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	 glAttachShader(ID, fragmentShader);
 	// Wrap-up/Link all the shaders together into the Shader Program
 	glLinkProgram(ID);
+	compileErrors(ID, "PROGRAM");
 
 	// Delete the now useless Vertex and Fragment Shader Object
 	glDeleteShader(vertexShader);
@@ -57,12 +62,6 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 
 Shader::~Shader() {}
 
-
-/* Create reference containers for
-*	VAO: Vertex Array Object
-*	VBO: Vertex Buffer Object
-*	IBO: Index Buffer Object
-*/
 
 void Shader::Activate()
 {
@@ -80,12 +79,40 @@ void Shader::Delete()
 	glDeleteProgram(ID);
 }
 
-void Shader::setFloatInVertexShader(std::string name, GLfloat value)
+void Shader::setFloatInShader(std::string name, GLfloat value)
 {
-	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	// glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	GLuint uniID = glGetUniformLocation(ID, name.c_str());
+	glUniform1f(uniID, value);
 }
 
-void Shader::setColorInFragmentShader(std::string name, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a)
+void Shader::setColorInShader(std::string name, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a)
 {
-	glUniform4f(glGetUniformLocation(ID, "color"), _r, _g, _b, _a);
+	// glUniform4f(glGetUniformLocation(ID, name.c_str()), _r, _g, _b, _a);
+	GLuint uniID = glGetUniformLocation(ID, name.c_str());
+	glUniform4f(uniID, _r, _g, _b, _a);
+}
+
+void Shader::compileErrors(unsigned int shader, const char* type)
+{
+	GLint hasCompiled;
+	char infoLog[1024];
+	if (type != "PROGRAM")
+	{
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+		if (hasCompiled == GL_FALSE)
+		{
+			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+			std::cout << "SHADER_COMPILATION_ERROR for: " << type << "\n" << std::endl;
+		}
+	}
+	else
+	{
+		glGetProgramiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+		if (hasCompiled == GL_FALSE)
+		{
+			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+			std::cout << "SHADER_LINKING_ERROR for: " << type << "\n" << std::endl;
+		}
+	}
 }

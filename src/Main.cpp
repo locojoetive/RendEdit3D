@@ -18,12 +18,13 @@
 // Vertices coordinates
 GLfloat vertices[] =
 {
-	-0.5f, -0.5f * float(sqrt(3)) / 3, 0.f,		// Lower left corner
-	0.5f, -0.5f * float(sqrt(3)) / 3, 0.f,		// Lower right corner
-	0.f, float(sqrt(3)) / 3, 0.f,				// Upper Corner
-	-0.25f, 0.5f * float(sqrt(3)) / 6, 0.f,	// Inner Left
-	0.25f, 0.5f * float(sqrt(3)) / 6, 0.f,		// Inner Right
-	0.f, -0.5f * float(sqrt(3)) / 3, 0.f		// Inner Down
+	//				Coordinates						//		COLORS			//
+	-0.5f,	-0.5f * float(sqrt(3)) / 3,		0.f,	0.47f, 0.1f,	  0.08f,	// Lower left corner
+	0.5f,	-0.5f * float(sqrt(3)) / 3,		0.f,	0.97f, 0.71f, 0.22f,	// Lower right corner
+	0.f,	float(sqrt(3)) / 3,				0.f,	0.85f, 0.49f, 0.15f,	// Upper Corner
+	-0.25f, 0.5f * float(sqrt(3)) / 6,		0.f,	0.85f, 0.34f, 0.16f,	// Inner Left
+	0.25f,	0.5f * float(sqrt(3)) / 6,		0.f,	0.76f, 0.18f, 0.15f,	// Inner Right
+	0.f,	-0.5f * float(sqrt(3)) / 3,		0.f,	0.63f, 0.53f, 0.62f		// Inner Down
 };
 // Order of inidec
 GLuint indices[] =
@@ -78,8 +79,9 @@ int main()
 	// Generate Index Buffer Object and Bind it to the indices
 	EBO EBO1(indices, sizeof(indices));
 
-	// Link VBO to VAO
-	VAO1.LinkVBO(VBO1, 0);
+	// Link VBO to VAO, Link shader attributes to VAO
+	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*) 0);
+	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*) (3 * sizeof(float)));
 
 	// Unbind all Objects to prevent accidentally modifying them
 	VAO1.Unbind();
@@ -101,7 +103,9 @@ int main()
 	
 	bool drawTriangle = true;
 	float size = 1.f;
+	/*
 	float color[4] = { .8f, .3f, .02, 1.f };
+	*/
 
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
@@ -119,10 +123,11 @@ int main()
 		if (drawTriangle)
 		{
 			shader->Activate();
-
+			
 			// export variables to shader
-			shader->setFloatInVertexShader("size", size);
-			shader->setColorInFragmentShader("color", color[0], color[1], color[2], color[3]);
+			shader->setFloatInShader("size", size);
+			// shader->setColorInFragmentShader("color", color[0], color[1], color[2], color[3]);
+			
 			// Draw plain old triangle
 			// glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -136,13 +141,15 @@ int main()
 		ImGui::Begin("Modify Triangle");
 		// Checkbox that appears in window
 		ImGui::Checkbox("Draw Triangle", &drawTriangle);
+		
 		// Slider that appears in window
 		ImGui::SliderFloat("Size", &size, .5f, 2.f);
 		// Color Picker that appears in window
-		ImGui::ColorEdit4("Color", color);
+		// ImGui::ColorEdit4("Color", color);
 		// Closes/Deletes the window
 		ImGui::End();
 
+		
 
 		
 
