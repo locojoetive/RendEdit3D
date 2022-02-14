@@ -11,10 +11,10 @@
 #include "Shader/VAO/VAO.h"
 #include "Shader/EBO/EBO.h"
 #include "SimpleShapes.h"
+#include "Texture/Texture.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
-
 
 
 int main()
@@ -77,6 +77,10 @@ int main()
 	VBO1.Unbind();
 	EBO1.Unbind();
 
+	// Texture
+	Texture choppa("Resources/Textures/choppa.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	choppa.texUnit(shader, "tex0", 0);
+
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -112,9 +116,9 @@ int main()
 		if (drawMesh)
 		{
 			shader->Activate();
-			
 			// export variables to shader
 			shader->setFloatInShader("size", size);
+			choppa.Bind();
 			// shader->setColorInFragmentShader("color", color[0], color[1], color[2], color[3]);
 			
 			// Draw plain old triangle
@@ -160,6 +164,7 @@ int main()
 	VAO1.Delete();
 	VBO1.Delete();
 	EBO1.Delete();
+	choppa.Delete();
 	shader->Delete();
 
 	
