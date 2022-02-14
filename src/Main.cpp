@@ -2,7 +2,6 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
-#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
@@ -11,29 +10,12 @@
 #include "Shader/VBO/VBO.h"
 #include "Shader/VAO/VAO.h"
 #include "Shader/EBO/EBO.h"
+#include "SimpleShapes.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
 
 
-// Vertices coordinates
-GLfloat vertices[] =
-{
-	//				Coordinates						//		COLORS			//
-	-0.5f,	-0.5f * float(sqrt(3)) / 3,		0.f,	0.47f, 0.1f,	  0.08f,	// Lower left corner
-	0.5f,	-0.5f * float(sqrt(3)) / 3,		0.f,	0.97f, 0.71f, 0.22f,	// Lower right corner
-	0.f,	float(sqrt(3)) / 3,				0.f,	0.85f, 0.49f, 0.15f,	// Upper Corner
-	-0.25f, 0.5f * float(sqrt(3)) / 6,		0.f,	0.85f, 0.34f, 0.16f,	// Inner Left
-	0.25f,	0.5f * float(sqrt(3)) / 6,		0.f,	0.76f, 0.18f, 0.15f,	// Inner Right
-	0.f,	-0.5f * float(sqrt(3)) / 3,		0.f,	0.63f, 0.53f, 0.62f		// Inner Down
-};
-// Order of inidec
-GLuint indices[] =
-{
-	0, 3, 5,	// Lower Left Triangle
-	3, 2, 4,	// Lower Right Triangle
-	5, 4, 1		// Upper Triangle
-};
 
 int main()
 {
@@ -76,7 +58,7 @@ int main()
 	VAO1.Bind();
 
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VBO VBO1(vertices, sizeof(vertices));
+	VBO VBO1(triforce, sizeof(triforce));
 	// Generate Index Buffer Object and Bind it to the indices
 	EBO EBO1(indices, sizeof(indices));
 
