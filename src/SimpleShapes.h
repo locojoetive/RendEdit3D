@@ -56,13 +56,13 @@ GLfloat square[] =
 	//		Coordinates		//		COLORS		//
 
 	// Lower left corner
-	-0.5f,	-0.5f,	0.f,	0.47f, 0.1f, 0.08f,
+	-0.5f,	-0.5f,	0.f,	0.47f,	0.1f,	0.08f,	0.f,	0.f,
 	// Lower right corner
-	0.5f,	-0.5f,	0.f,	0.85f, 0.49f, 0.15f,
+	0.5f,	-0.5f,	0.f,	0.85f,	0.49f,	0.15f,	1.f,	0.f,
 	// Upper right corner
-	0.5f,	0.5f,	0.f,	0.97f, 0.71f, 0.22f,
+	0.5f,	0.5f,	0.f,	0.97f,	0.71f,	0.22f,	1.f,	1.f,
 	// Upper left corner
-	-0.5f,	0.5f,	0.f,	0.85f, 0.34f, 0.16f,
+	-0.5f,	0.5f,	0.f,	0.85f,	0.34f,	0.16f,	0.f,	1.f
 };
 
 
