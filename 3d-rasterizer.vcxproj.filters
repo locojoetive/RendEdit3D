@@ -63,6 +63,12 @@
     <ClCompile Include="src\Shader\VAO\VAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Libraries\include\stb\std.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imgui.h">
@@ -104,14 +110,20 @@
     <ClInclude Include="src\Shader\VAO\VAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleShapes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="opengl_shaders\default.frag">
+    <Text Include="Resources\Shaders\default.frag">
       <Filter>Resource Files\shaders</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="opengl_shaders\default.vert">
+    <None Include="Resources\Shaders\default.vert">
       <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>

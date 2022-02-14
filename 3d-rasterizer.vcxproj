@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Libraries\include\stb\std.cpp" />
     <ClCompile Include="src\Shader\EBO\EBO.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -176,8 +177,10 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Shader\VBO\VBO.cpp" />
     <ClCompile Include="src\Shader\VAO\VAO.cpp" />
+    <ClCompile Include="src\Texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleShapes.h" />
     <ClInclude Include="src\Shader\EBO\EBO.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -191,12 +194,13 @@
     <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Shader\VBO\VBO.h" />
     <ClInclude Include="src\Shader\VAO\VAO.h" />
+    <ClInclude Include="src\Texture\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="opengl_shaders\default.vert" />
+    <None Include="Resources\Shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="opengl_shaders\default.frag" />
+    <Text Include="Resources\Shaders\default.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
