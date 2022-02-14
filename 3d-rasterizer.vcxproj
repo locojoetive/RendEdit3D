@@ -195,10 +195,10 @@
     <ClInclude Include="src\Shader\VAO\VAO.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="opengl_shaders\default.vert" />
+    <None Include="Resources\Shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="opengl_shaders\default.frag" />
+    <Text Include="Resources\Shaders\default.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

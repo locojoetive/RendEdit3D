@@ -51,7 +51,12 @@ int main()
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	// Create Shader Object using default Vertex and Fragment Shaders
-	Shader* shader = new Shader("opengl_shaders/default.vert", "opengl_shaders/default.frag");
+	Shader* shader = new Shader(
+		// Load Vertex Shader
+		"Resources/Shaders/default.vert",
+		// Load Fragment Shader
+		"Resources/Shaders/default.frag"
+	);
 	
 	// Generate and Bind Vertex Array Object
 	VAO VAO1;

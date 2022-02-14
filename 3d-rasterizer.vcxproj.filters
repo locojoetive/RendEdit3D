@@ -112,12 +112,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="opengl_shaders\default.frag">
+    <Text Include="Resources\Shaders\default.frag">
       <Filter>Resource Files\shaders</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="opengl_shaders\default.vert">
+    <None Include="Resources\Shaders\default.vert">
       <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>
