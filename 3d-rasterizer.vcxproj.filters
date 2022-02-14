@@ -107,6 +107,9 @@
     <ClInclude Include="src\Shader\VAO\VAO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleShapes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="opengl_shaders\default.frag">

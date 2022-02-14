@@ -58,9 +58,9 @@ int main()
 	VAO1.Bind();
 
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VBO VBO1(triforce, sizeof(triforce));
+	VBO VBO1(square, sizeof(square));
 	// Generate Index Buffer Object and Bind it to the indices
-	EBO EBO1(indices, sizeof(indices));
+	EBO EBO1(squareIndices, sizeof(squareIndices));
 
 	// Link VBO to VAO, Link shader attributes to VAO
 	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*) 0);
@@ -84,7 +84,7 @@ int main()
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 	
-	bool drawTriangle = true;
+	bool drawMesh = true;
 	float size = 1.f;
 	/*
 	float color[4] = { .8f, .3f, .02, 1.f };
@@ -103,7 +103,7 @@ int main()
 		ImGui::NewFrame();
 
 		// Only draw the triangle when the checkbox is ticked
-		if (drawTriangle)
+		if (drawMesh)
 		{
 			shader->Activate();
 			
@@ -123,7 +123,7 @@ int main()
 		// ImGUI window creation
 		ImGui::Begin("Modify Triangle");
 		// Checkbox that appears in window
-		ImGui::Checkbox("Draw Triangle", &drawTriangle);
+		ImGui::Checkbox("Draw Mesh", &drawMesh);
 		
 		// Slider that appears in window
 		ImGui::SliderFloat("Size", &size, .5f, 2.f);

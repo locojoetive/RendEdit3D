@@ -179,6 +179,7 @@
     <ClCompile Include="src\Shader\VAO\VAO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleShapes.h" />
     <ClInclude Include="src\Shader\EBO\EBO.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
