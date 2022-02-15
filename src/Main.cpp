@@ -5,6 +5,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Shader/Shader.h"
 #include "Shader/VBO/VBO.h"
@@ -79,7 +82,7 @@ int main()
 
 	// Texture
 	Texture* choppa = new Texture("Resources/Textures/choppa.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	choppa->texUnit(*shader, "tex0", 0);
+	choppa->texUnit(shader, "tex0", 0);
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
