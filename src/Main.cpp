@@ -50,7 +50,6 @@ int main()
 
 	// Load GLAD so it configures OpenGL
 	gladLoadGL();
-
 	// Specify the view port
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -82,7 +81,7 @@ int main()
 	EBO1->Unbind();
 
 	// Texture
-	Texture* choppa = new Texture("Resources/Textures/choppa.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture* choppa = new Texture("Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	choppa->texUnit(shader, "tex0", 0);
 
 	// Setup Dear ImGui context
