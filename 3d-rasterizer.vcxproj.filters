@@ -54,13 +54,13 @@
     <ClCompile Include="src\Shader\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader\VBO\VBO.cpp">
+    <ClCompile Include="src\Shader\VBO\VertexBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader\EBO\EBO.cpp">
+    <ClCompile Include="src\Shader\EBO\ElementBufferObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader\VAO\VAO.cpp">
+    <ClCompile Include="src\Shader\VAO\VertexArrayObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\include\stb\std.cpp">
@@ -101,13 +101,13 @@
     <ClInclude Include="src\Shader\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader\VBO\VBO.h">
+    <ClInclude Include="src\Shader\VBO\VertexBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader\EBO\EBO.h">
+    <ClInclude Include="src\Shader\EBO\ElementBufferObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader\VAO\VAO.h">
+    <ClInclude Include="src\Shader\VAO\VertexArrayObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SimpleShapes.h">

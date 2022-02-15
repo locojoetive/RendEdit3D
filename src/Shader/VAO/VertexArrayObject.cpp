@@ -1,13 +1,13 @@
-#include "VAO.h"
+#include "VertexArrayObject.h"
 
 // Constructs a Vertex Array Object with an ID
-VAO::VAO()
+VertexArrayObject::VertexArrayObject()
 {
 	glGenVertexArrays(1, &ID);
 }
 
 // Links a Vertex Buffer Object to the VAO using a certain layout
-void VAO::LinkAttrib(VBO* VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset)
+void VertexArrayObject::LinkAttrib(VertexBufferObject* VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset)
 {
 	VBO->Bind(); 
 	// Configure the Vertex Attribute so that OpenGL knows how to read the VBO
@@ -19,19 +19,19 @@ void VAO::LinkAttrib(VBO* VBO, GLuint layout, GLuint numComponents, GLenum type,
 }
 
 // Bind the VAO
-void VAO::Bind()
+void VertexArrayObject::Bind()
 {
 	glBindVertexArray(ID);
 }
 
 // Unbind the VAO
-void VAO::Unbind()
+void VertexArrayObject::Unbind()
 {
 	glBindVertexArray(0);
 }
 
 // Delete the VAO
-void VAO::Delete()
+void VertexArrayObject::Delete()
 {
 	glDeleteVertexArrays(1, &ID);
 }

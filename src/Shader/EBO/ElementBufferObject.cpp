@@ -1,7 +1,7 @@
-#include "EBO.h"
+#include "ElementBufferObject.h"
 
 // Constructs an Element Buffer Object and links it to indices
-EBO::EBO(GLuint* indices, GLsizeiptr size)
+ElementBufferObject::ElementBufferObject(GLuint* indices, GLsizeiptr size)
 {
 	// Generate the Index Buffer Object
 	glGenBuffers(1, &ID);
@@ -13,21 +13,21 @@ EBO::EBO(GLuint* indices, GLsizeiptr size)
 }
 
 // Binds the EBO
-void EBO::Bind()
+void ElementBufferObject::Bind()
 {
 	// Unbínd EBO after VAO, since the EBO is stored inside the VAO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
 }
 
 // Unbinds the EBO
-void EBO::Unbind()
+void ElementBufferObject::Unbind()
 {
 	// Unbínd EBO after VAO, since the EBO is stored inside the VAO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 // Deletes the EBO
-void EBO::Delete()
+void ElementBufferObject::Delete()
 {
 	// Delete the Index Buffer
 	glDeleteBuffers(1, &ID);

@@ -164,7 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\include\stb\std.cpp" />
-    <ClCompile Include="src\Shader\EBO\EBO.cpp" />
+    <ClCompile Include="src\Shader\EBO\ElementBufferObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -175,13 +175,13 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Shader\VBO\VBO.cpp" />
-    <ClCompile Include="src\Shader\VAO\VAO.cpp" />
+    <ClCompile Include="src\Shader\VBO\VertexBufferObject.cpp" />
+    <ClCompile Include="src\Shader\VAO\VertexArrayObject.cpp" />
     <ClCompile Include="src\Texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SimpleShapes.h" />
-    <ClInclude Include="src\Shader\EBO\EBO.h" />
+    <ClInclude Include="src\Shader\EBO\ElementBufferObject.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -192,8 +192,8 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="src\Shader\Shader.h" />
-    <ClInclude Include="src\Shader\VBO\VBO.h" />
-    <ClInclude Include="src\Shader\VAO\VAO.h" />
+    <ClInclude Include="src\Shader\VBO\VertexBufferObject.h" />
+    <ClInclude Include="src\Shader\VAO\VertexArrayObject.h" />
     <ClInclude Include="src\Texture\Texture.h" />
   </ItemGroup>
   <ItemGroup>

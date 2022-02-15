@@ -2,13 +2,13 @@
 
 #include <glad/glad.h>
 
-class VBO
+class VertexBufferObject
 {
 public:
 	// ID reference of Vertex Buffer Object
 	GLuint ID;
 	// Constructs a Vertex Buffer Object and links it to vertices
-	VBO(GLfloat* vertices, GLsizeiptr size);
+	VertexBufferObject(GLfloat* vertices, GLsizeiptr size);
 
 	// Binds the VBO
 	void Bind();

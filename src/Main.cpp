@@ -5,14 +5,15 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Shader/Shader.h"
-#include "Shader/VBO/VBO.h"
-#include "Shader/VAO/VAO.h"
-#include "Shader/EBO/EBO.h"
+#include "Shader/VBO/VertexBufferObject.h"
+#include "Shader/VAO/VertexArrayObject.h"
+#include "Shader/EBO/ElementBufferObject.h"
 #include "SimpleShapes.h"
 #include "Texture/Texture.h"
 
@@ -62,13 +63,13 @@ int main()
 	);
 	
 	// Generate and Bind Vertex Array Object
-	VAO* VAO1 = new VAO;
+	VertexArrayObject* VAO1 = new VertexArrayObject;
 	VAO1->Bind();
 
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VBO* VBO1 = new VBO(square, sizeof(square));
+	VertexBufferObject* VBO1 = new VertexBufferObject(square, sizeof(square));
 	// Generate Index Buffer Object and Bind it to the indices
-	EBO* EBO1 = new EBO(squareIndices, sizeof(squareIndices));
+	ElementBufferObject* EBO1 = new ElementBufferObject(squareIndices, sizeof(squareIndices));
 
 	// Link VBO to VAO, Link shader attributes to VAO
 	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
