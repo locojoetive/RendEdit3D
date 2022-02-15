@@ -103,6 +103,8 @@ int main()
 	float color[4] = { .8f, .3f, .02, 1.f };
 	*/
 
+	float rotation = 0;
+	double previousTime = glfwGetTime();
 
 	glEnable(GL_DEPTH_TEST);
 	// Main loop: keep window open until closed
@@ -120,12 +122,21 @@ int main()
 		// Only draw the triangle when the checkbox is ticked
 		if (drawMesh)
 		{
+			double currentTime = glfwGetTime();
+
+			if (currentTime - previousTime > 1 / 60)
+			{
+				rotation += 0.5f;
+				previousTime = currentTime;
+			}
+
 			shader->Activate();
 
 			glm::mat4 modelMatrix = glm::mat4(1.f);
 			glm::mat4 viewMatrix = glm::mat4(1.f);
 			glm::mat4 projectionMatrix = glm::mat4(1.f);
 
+			modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation), glm::vec3(0, 1, 0));
 			viewMatrix = glm::translate(viewMatrix, glm::vec3(0.f, -0.5f, -2.f));
 			projectionMatrix = glm::perspective(
 				// FOV angle
