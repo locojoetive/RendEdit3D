@@ -103,12 +103,14 @@ int main()
 	float color[4] = { .8f, .3f, .02, 1.f };
 	*/
 
+
+	glEnable(GL_DEPTH_TEST);
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
 	{
 
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// declare new ImGui Frame
 		ImGui_ImplOpenGL3_NewFrame();
