@@ -120,6 +120,33 @@ int main()
 		if (drawMesh)
 		{
 			shader->Activate();
+
+			glm::mat4 modelMatrix = glm::mat4(1.f);
+			glm::mat4 viewMatrix = glm::mat4(1.f);
+			glm::mat4 projectionMatrix = glm::mat4(1.f);
+
+			viewMatrix = glm::translate(viewMatrix, glm::vec3(0.f, -0.5f, -2.f));
+			projectionMatrix = glm::perspective(
+				// FOV angle
+				glm::radians(45.f),
+				// aspect ratio
+				(float) WINDOW_WIDTH/WINDOW_HEIGHT,
+				// near clip plane
+				0.1f,
+				// far clip plane
+				100.f
+			);
+
+			int modelLocation = glGetUniformLocation(shader->ID, "model");
+			glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
+			int viewLocation = glGetUniformLocation(shader->ID, "view");
+			glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
+			int projectionLocation = glGetUniformLocation(shader->ID, "projection");
+			glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+
+
 			// export variables to shader
 			shader->setFloatInShader("size", size);
 			choppa->Bind();
