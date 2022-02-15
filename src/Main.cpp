@@ -59,27 +59,27 @@ int main()
 	);
 	
 	// Generate and Bind Vertex Array Object
-	VAO VAO1;
-	VAO1.Bind();
+	VAO* VAO1 = new VAO;
+	VAO1->Bind();
 
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VBO VBO1(square, sizeof(square));
+	VBO* VBO1 = new VBO(square, sizeof(square));
 	// Generate Index Buffer Object and Bind it to the indices
-	EBO EBO1(squareIndices, sizeof(squareIndices));
+	EBO* EBO1 = new EBO(squareIndices, sizeof(squareIndices));
 
 	// Link VBO to VAO, Link shader attributes to VAO
-	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
-	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
+	VAO1->LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO1->LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
 	// Unbind all Objects to prevent accidentally modifying them
-	VAO1.Unbind();
-	VBO1.Unbind();
-	EBO1.Unbind();
+	VAO1->Unbind();
+	VBO1->Unbind();
+	EBO1->Unbind();
 
 	// Texture
-	Texture choppa("Resources/Textures/choppa.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	choppa.texUnit(shader, "tex0", 0);
+	Texture* choppa = new Texture("Resources/Textures/choppa.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	choppa->texUnit(*shader, "tex0", 0);
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -118,14 +118,14 @@ int main()
 			shader->Activate();
 			// export variables to shader
 			shader->setFloatInShader("size", size);
-			choppa.Bind();
+			choppa->Bind();
 			// shader->setColorInFragmentShader("color", color[0], color[1], color[2], color[3]);
 			
 			// Draw plain old triangle
 			// glDrawArrays(GL_TRIANGLES, 0, 3);
 
 			// Bind the VAO so OpenGL knows to use it
-			VAO1.Bind();
+			VAO1->Bind();
 			// Draw new cool Triforce!
 			glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 		}
@@ -161,10 +161,10 @@ int main()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 
-	VAO1.Delete();
-	VBO1.Delete();
-	EBO1.Delete();
-	choppa.Delete();
+	VAO1->Delete();
+	VBO1->Delete();
+	EBO1->Delete();
+	choppa->Delete();
 	shader->Delete();
 
 	
