@@ -67,9 +67,9 @@ int main()
 	VAO1->Bind();
 
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VertexBufferObject* VBO1 = new VertexBufferObject(square, sizeof(square));
+	VertexBufferObject* VBO1 = new VertexBufferObject(pyramid, sizeof(pyramid));
 	// Generate Index Buffer Object and Bind it to the indices
-	ElementBufferObject* EBO1 = new ElementBufferObject(squareIndices, sizeof(squareIndices));
+	ElementBufferObject* EBO1 = new ElementBufferObject(pyramidIndices, sizeof(pyramidIndices));
 
 	// Link VBO to VAO, Link shader attributes to VAO
 	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
@@ -158,7 +158,7 @@ int main()
 			// Bind the VAO so OpenGL knows to use it
 			VAO1->Bind();
 			// Draw new cool Triforce!
-			glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, sizeof(pyramidIndices)/sizeof(int), GL_UNSIGNED_INT, 0);
 		}
 
 		// ImGUI window creation
