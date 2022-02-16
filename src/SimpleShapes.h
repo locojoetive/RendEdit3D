@@ -76,28 +76,28 @@ GLuint squareIndices[] =
 
 GLfloat pyramid[] =
 {
-	//		Coordinates		//		COLORS		//
+	//		Coordinates		//		COLORS		//	TexCoords	//
 
 	// front left
-	-0.5f,	0.0f,	0.5f,	0.47f,	0.1f,	0.08f,	0.f,	0.f,
+	-0.5f,	0.0f,	0.5f,	0.f,	0.f,	0.f,	0.f,	0.f,
 	// back left
-	-0.5f,	0.0f,	-0.5f,	0.85f,	0.49f,	0.15f,	1.f,	0.f,
+	-0.5f,	0.0f,	-0.5f,	0.f,	0.f,	0.f,	5.f,	0.f,
 	// back right
-	0.5f,	0.f,	-0.5f,	0.97f,	0.71f,	0.22f,	1.f,	1.f,
+	0.5f,	0.f,	-0.5f,	0.f,	0.f,	0.f,	0.f,	0.f,
 	// front right
-	0.5f,	0.0f,	0.5f,	0.85f,	0.34f,	0.16f,	0.f,	1.f,
+	0.5f,	0.0f,	0.5f,	0.f,	0.f,	0.f,	5.f,	0.f,
 	// tip of the pyramid
-	0.f,	0.8f,	0.f,	0.85f,	0.34f,	0.16f,	0.f,	1.f
+	0.f,	0.8f,	0.f,	0.f,	0.f,	0.f,	2.5f,	5.f
 };
 
 
 // Order of indices
 GLuint pyramidIndices[] =
 {
-	0, 1, 2,
-	2, 3, 0,
-	0, 3, 4,
-	3, 2, 4,
-	2, 1, 4,
-	1, 0, 4
+	0, 2, 1,
+	2, 0, 3,
+	0, 1, 4,
+	1, 2, 4,
+	2, 3, 4,
+	3, 0, 4
 };
