@@ -20,6 +20,7 @@
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
 
+#define ROTATION_SPEED 0.1
 
 int main()
 {
@@ -126,7 +127,7 @@ int main()
 
 			if (currentTime - previousTime > 1 / 60)
 			{
-				rotation += 0.5f;
+				rotation += ROTATION_SPEED;
 				previousTime = currentTime;
 			}
 
