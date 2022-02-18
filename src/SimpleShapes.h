@@ -101,3 +101,37 @@ GLuint pyramidIndices[] =
 	2, 3, 4,
 	3, 0, 4
 };
+
+GLfloat lightVertices[] =
+{
+	0.1f, 0.1f, 0.1f,
+	0.1f, 0.1f, -0.1f,
+	0.1f, -0.1f, 0.1f,
+	0.1f, -0.1f, -0.1f,
+	-0.1f, 0.1f, 0.1f,
+	-0.1f, 0.1f, -0.1f,
+	-0.1f, -0.1f, 0.1f,
+	-0.1f, -0.1f, -0.1f
+};
+
+GLuint lightIndices[]
+{
+	// right surface
+	0, 2, 1,
+	1, 2, 3,
+	// left surface
+	4, 5, 7,
+	4, 7, 6,
+	// top surface
+	0, 1, 5,
+	5, 4, 0,
+	// bottom surface
+	2, 6, 7,
+	7, 3, 2,
+	// front surface
+	0, 4, 6,
+	6, 2, 0,
+	// back surface
+	1, 3, 7,
+	7, 5, 1
+};
