@@ -1,37 +1,37 @@
 #version 330 core
 out vec4 FragColor;
 
-// Inputs the color from the Vertex Shader
+// Vertex Shader Imports
 in vec3 color;
-// Inputs the texture coordinates from the Vertex Shader
 in vec2 texCoord;
-
 in vec3 Normal;
 in vec3 currentPos;
 
-// Gets the Texture Unit from the CPU
+// Gets Texture Unit from program
 uniform sampler2D tex0;
-
+// Gets light features from program
 uniform vec4 lightColor;
 uniform vec3 lightPos;
+// Gets camera position from program
 uniform vec3 camPos;
 
 void main()
 {
-	// define ambient light
+	// ambient lighting
 	float ambient = 0.2f;
 	vec3 normal = normalize(Normal);
 	vec3 lightDirection = normalize(lightPos - currentPos);
 
-	// calculate light diffusion
+	// diffuse lighting
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
-	// calculate specular
+	// specular lighting
 	float specularLight = 0.5f;
 	vec3 viewDirection = normalize(camPos - currentPos);
 	vec3 reflectionDirection = reflect(-lightDirection, normal);
 	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
 	float specular = specAmount * specularLight;
 
+	// outputs final color
 	FragColor = texture(tex0, texCoord) * lightColor * (diffuse + ambient);
 }

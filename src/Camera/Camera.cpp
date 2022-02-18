@@ -16,7 +16,7 @@ void Camera::updateMatrix(float FOVdegree, float nearPlaneDistance, float farPla
 	// makes camera look in the right direction
 	view = glm::lookAt(position, position + forward, up);
 
-	// declares the view frustrum
+	// declares the view frustrum and adds perspective to the scene
 	projection = glm::perspective(
 		// FOV angle
 		glm::radians(45.f),
@@ -28,12 +28,13 @@ void Camera::updateMatrix(float FOVdegree, float nearPlaneDistance, float farPla
 		100.f
 	);
 
+	// Update the camera matrix
 	cameraMatrix = projection * view;
 }
 
 void Camera::Matrix(Shader& shader, const char* uniform)
 {
-	// exports the camera matrix to the vertex shader
+	// exports the camera matrix to a shader
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
 // handles camera inputs
