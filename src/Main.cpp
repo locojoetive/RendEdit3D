@@ -118,7 +118,8 @@ int main()
 			// handles camera inputs
 			camera->Inputs(window);
 			// updates and exports the camera matrix to the vertex shader
-			camera->Matrix(45.f, 0.1f, 100.f, shader, "camMatrix");
+			camera->updateMatrix(45.f, 0.1f, 100.f);
+			camera->Matrix(*shader, "camMatrix");
 			
 			// bind texture
 			texture->Bind();

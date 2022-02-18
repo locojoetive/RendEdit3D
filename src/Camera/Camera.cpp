@@ -7,7 +7,7 @@ Camera::Camera(int _width, int _height, glm::vec3 _position)
 {}
 
 // updates and exports the camera matrix to the vertex shader
-void Camera::Matrix(int FOVdegree, float nearPlaneDistance, float farPlaneDistance, Shader* shader, const char* uniform)
+void Camera::updateMatrix(float FOVdegree, float nearPlaneDistance, float farPlaneDistance)
 {
 	// initializes matrices since otherwise they will be the null matrix
 	glm::mat4 view(1.f);
@@ -28,10 +28,14 @@ void Camera::Matrix(int FOVdegree, float nearPlaneDistance, float farPlaneDistan
 		100.f
 	);
 
-	// exports the camera matrix to the vertex shader
-	glUniformMatrix4fv(glGetUniformLocation(shader->ID, uniform), 1, GL_FALSE, glm::value_ptr(projection * view));
+	cameraMatrix = projection * view;
 }
 
+void Camera::Matrix(Shader& shader, const char* uniform)
+{
+	// exports the camera matrix to the vertex shader
+	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
+}
 // handles camera inputs
 void Camera::Inputs(GLFWwindow* window)
 {

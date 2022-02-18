@@ -18,6 +18,7 @@ public:
 	glm::vec3 forward{ 0.f, 0.f, -1.f };
 	glm::vec3 up{ 0.f, 1.f, 0.f };
 	glm::vec3 right{ 1.f, 0.f, 0.f };
+	glm::mat4 cameraMatrix = glm::mat4(1.f);
 
 	// prevents camera from junping around when dragging with left mouse button
 	bool isFirstClick = true;
@@ -33,7 +34,8 @@ public:
 
 	Camera(int width, int height, glm::vec3 position);
 
-	void Matrix(int FOVdegree, float nearPlaneDistance, float farPlaneDistance, Shader* shader, const char* uniform);
+	void updateMatrix(float FOVdegree, float nearPlaneDistance, float farPlaneDistance);
+	void Matrix(Shader &shader, const char* uniform);
 	void Inputs(GLFWwindow* window);
 };
 
