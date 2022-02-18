@@ -92,6 +92,8 @@ int main()
 	lightVBO->Unbind();
 	lightEBO->Unbind();
 
+	glm::vec4 lightColor = glm::vec4(1.f, 1.f, 1.f, 1.f);
+
 	glm::vec3 lightPos = glm::vec3(.5f, .5f, .5f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
@@ -101,9 +103,13 @@ int main()
 	pyramidModel = glm::translate(pyramidModel, pyramidPos);
 
 	lightShader->Activate();
+	// export values to light shader
 	glUniformMatrix4fv(glGetUniformLocation(lightShader->ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
+	glUniform4f(glGetUniformLocation(lightShader->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	shader->Activate();
+	// export values to object shader
 	glUniformMatrix4fv(glGetUniformLocation(shader->ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
+	glUniform4f(glGetUniformLocation(shader->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 
 
 	// Texture
