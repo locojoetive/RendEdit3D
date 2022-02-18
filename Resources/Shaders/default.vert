@@ -12,7 +12,6 @@ out vec3 color;
 // Outputs the texture coordinates to the fragment shader
 out vec2 texCoord;
 
-
 // world to screen matrix
 uniform mat4 camMatrix;
 
