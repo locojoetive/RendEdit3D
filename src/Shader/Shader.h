@@ -25,9 +25,6 @@ public:
 	void Deactivate();
 	void Delete();
 
-	void setFloatInShader(std::string name, GLfloat value);
-	void setColorInShader(std::string name, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a);
-
 private:
 	void compileErrors(unsigned int shader, const char* type);
 };
