@@ -6,16 +6,20 @@
 #include <GLFW/glfw3.h>
 #include <stb/stb_image.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Shader/Shader.h"
-#include "Shader/VBO/VBO.h"
-#include "Shader/VAO/VAO.h"
-#include "Shader/EBO/EBO.h"
+#include "Shader/VBO/VertexBufferObject.h"
+#include "Shader/VAO/VertexArrayObject.h"
+#include "Shader/EBO/ElementBufferObject.h"
 #include "SimpleShapes.h"
 #include "Texture/Texture.h"
+#include "Camera/Camera.h"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 800
-
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080
 
 int main()
 {
@@ -46,7 +50,6 @@ int main()
 
 	// Load GLAD so it configures OpenGL
 	gladLoadGL();
-
 	// Specify the view port
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -59,27 +62,27 @@ int main()
 	);
 	
 	// Generate and Bind Vertex Array Object
-	VAO VAO1;
-	VAO1.Bind();
+	VertexArrayObject* VAO1 = new VertexArrayObject;
+	VAO1->Bind();
 
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VBO VBO1(square, sizeof(square));
+	VertexBufferObject* VBO1 = new VertexBufferObject(pyramid, sizeof(pyramid));
 	// Generate Index Buffer Object and Bind it to the indices
-	EBO EBO1(squareIndices, sizeof(squareIndices));
+	ElementBufferObject* EBO1 = new ElementBufferObject(pyramidIndices, sizeof(pyramidIndices));
 
 	// Link VBO to VAO, Link shader attributes to VAO
-	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
-	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
+	VAO1->LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO1->LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
 	// Unbind all Objects to prevent accidentally modifying them
-	VAO1.Unbind();
-	VBO1.Unbind();
-	EBO1.Unbind();
+	VAO1->Unbind();
+	VBO1->Unbind();
+	EBO1->Unbind();
 
 	// Texture
-	Texture choppa("Resources/Textures/choppa.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	choppa.texUnit(shader, "tex0", 0);
+	Texture* texture = new Texture("Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	texture->texUnit(shader, "tex0", 0);
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -95,56 +98,50 @@ int main()
 	ImGui_ImplOpenGL3_Init("#version 330");
 	
 	bool drawMesh = true;
-	float size = 1.f;
-	/*
-	float color[4] = { .8f, .3f, .02, 1.f };
-	*/
+	// Creates camera object
+	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
 
+
+	glEnable(GL_DEPTH_TEST);
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
 	{
 
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Only draw the triangle when the checkbox is ticked
+		if (drawMesh)
+		{
+			shader->Activate();
+
+			// handles camera inputs
+			camera->Inputs(window);
+			// updates and exports the camera matrix to the vertex shader
+			camera->Matrix(45.f, 0.1f, 100.f, shader, "camMatrix");
+			
+			// bind texture
+			texture->Bind();
+			// Bind the VAO so OpenGL knows to use it
+			VAO1->Bind();
+			// Draw new cool Triforce!
+			glDrawElements(GL_TRIANGLES, sizeof(pyramidIndices)/sizeof(int), GL_UNSIGNED_INT, 0);
+
+		}
 
 		// declare new ImGui Frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		// Only draw the triangle when the checkbox is ticked
-		if (drawMesh)
-		{
-			shader->Activate();
-			// export variables to shader
-			shader->setFloatInShader("size", size);
-			choppa.Bind();
-			// shader->setColorInFragmentShader("color", color[0], color[1], color[2], color[3]);
-			
-			// Draw plain old triangle
-			// glDrawArrays(GL_TRIANGLES, 0, 3);
-
-			// Bind the VAO so OpenGL knows to use it
-			VAO1.Bind();
-			// Draw new cool Triforce!
-			glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
-		}
-
 		// ImGUI window creation
 		ImGui::Begin("Modify Triangle");
 		// Checkbox that appears in window
 		ImGui::Checkbox("Draw Mesh", &drawMesh);
-		
-		// Slider that appears in window
-		ImGui::SliderFloat("Size", &size, .5f, 2.f);
-		// Color Picker that appears in window
-		// ImGui::ColorEdit4("Color", color);
+
 		// Closes/Deletes the window
 		ImGui::End();
 
-		
-
-		
 
 		// Render ImGUI Elements
 		ImGui::Render();
@@ -161,10 +158,10 @@ int main()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 
-	VAO1.Delete();
-	VBO1.Delete();
-	EBO1.Delete();
-	choppa.Delete();
+	VAO1->Delete();
+	VBO1->Delete();
+	EBO1->Delete();
+	texture->Delete();
 	shader->Delete();
 
 	

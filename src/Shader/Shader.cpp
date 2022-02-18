@@ -79,20 +79,6 @@ void Shader::Delete()
 	glDeleteProgram(ID);
 }
 
-void Shader::setFloatInShader(std::string name, GLfloat value)
-{
-	// glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
-	GLuint uniID = glGetUniformLocation(ID, name.c_str());
-	glUniform1f(uniID, value);
-}
-
-void Shader::setColorInShader(std::string name, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a)
-{
-	// glUniform4f(glGetUniformLocation(ID, name.c_str()), _r, _g, _b, _a);
-	GLuint uniID = glGetUniformLocation(ID, name.c_str());
-	glUniform4f(uniID, _r, _g, _b, _a);
-}
-
 void Shader::compileErrors(unsigned int shader, const char* type)
 {
 	GLint hasCompiled;
