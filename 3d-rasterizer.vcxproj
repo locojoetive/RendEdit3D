@@ -203,6 +203,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\Shaders\default.frag" />
+    <Text Include="Resources\Shaders\light.vert" />
+    <Text Include="Resources\Shaders\light.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

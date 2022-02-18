@@ -80,6 +80,32 @@ int main()
 	VBO1->Unbind();
 	EBO1->Unbind();
 
+	Shader* lightShader = new Shader("Resources/Shaders/light.vert", "Resources/Shaders/light.frag");
+	VertexArrayObject* lightVAO = new VertexArrayObject;
+	lightVAO->Bind();
+
+	VertexBufferObject* lightVBO = new VertexBufferObject(lightVertices, sizeof(lightVertices));
+	ElementBufferObject* lightEBO = new ElementBufferObject(lightIndices, sizeof(lightIndices));
+
+	lightVAO->LinkAttrib(lightVBO, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+	lightVAO->Unbind();
+	lightVBO->Unbind();
+	lightEBO->Unbind();
+
+	glm::vec3 lightPos = glm::vec3(.5f, .5f, .5f);
+	glm::mat4 lightModel = glm::mat4(1.0f);
+	lightModel = glm::translate(lightModel, lightPos);
+
+	glm::vec3 pyramidPos = glm::vec3(0.f, 0.f, 0.f);
+	glm::mat4 pyramidModel = glm::mat4(1.0f);
+	pyramidModel = glm::translate(pyramidModel, pyramidPos);
+
+	lightShader->Activate();
+	glUniformMatrix4fv(glGetUniformLocation(lightShader->ID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
+	shader->Activate();
+	glUniformMatrix4fv(glGetUniformLocation(shader->ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
+
+
 	// Texture
 	Texture* texture = new Texture("Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	texture->texUnit(shader, "tex0", 0);
@@ -113,21 +139,25 @@ int main()
 		// Only draw the triangle when the checkbox is ticked
 		if (drawMesh)
 		{
-			shader->Activate();
 
 			// handles camera inputs
 			camera->Inputs(window);
 			// updates and exports the camera matrix to the vertex shader
 			camera->updateMatrix(45.f, 0.1f, 100.f);
+			shader->Activate();
 			camera->Matrix(*shader, "camMatrix");
 			
 			// bind texture
 			texture->Bind();
 			// Bind the VAO so OpenGL knows to use it
 			VAO1->Bind();
-			// Draw new cool Triforce!
+			// Draw Pyramid
 			glDrawElements(GL_TRIANGLES, sizeof(pyramidIndices)/sizeof(int), GL_UNSIGNED_INT, 0);
 
+			lightShader->Activate();
+			camera->Matrix(*lightShader, "camMatrix");
+			lightVAO->Bind();
+			glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
 		}
 
 		// declare new ImGui Frame
