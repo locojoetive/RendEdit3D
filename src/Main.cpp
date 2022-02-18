@@ -71,9 +71,10 @@ int main()
 	ElementBufferObject* EBO1 = new ElementBufferObject(pyramidIndices, sizeof(pyramidIndices));
 
 	// Link VBO to VAO, Link shader attributes to VAO
-	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*) 0);
-	VAO1->LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	VAO1->LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*) 0);
+	VAO1->LinkAttrib(VBO1, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO1->LinkAttrib(VBO1, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+	VAO1->LinkAttrib(VBO1, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
 
 	// Unbind all Objects to prevent accidentally modifying them
 	VAO1->Unbind();
@@ -110,6 +111,7 @@ int main()
 	// export values to object shader
 	glUniformMatrix4fv(glGetUniformLocation(shader->ID, "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
 	glUniform4f(glGetUniformLocation(shader->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
 
 	// Texture
@@ -151,6 +153,7 @@ int main()
 			// updates and exports the camera matrix to the vertex shader
 			camera->updateMatrix(45.f, 0.1f, 100.f);
 			shader->Activate();
+			glUniform3f(glGetUniformLocation(shader->ID, "camPos"), camera->position.x, camera->position.y, camera->position.z);
 			camera->Matrix(*shader, "camMatrix");
 			
 			// bind texture
