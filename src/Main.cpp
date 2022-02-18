@@ -16,9 +16,10 @@
 #include "Shader/EBO/ElementBufferObject.h"
 #include "SimpleShapes.h"
 #include "Texture/Texture.h"
+#include "Camera/Camera.h"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080
 
 #define ROTATION_SPEED 0.1
 
@@ -82,8 +83,8 @@ int main()
 	EBO1->Unbind();
 
 	// Texture
-	Texture* choppa = new Texture("Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	choppa->texUnit(shader, "tex0", 0);
+	Texture* texture = new Texture("Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	texture->texUnit(shader, "tex0", 0);
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
@@ -99,13 +100,9 @@ int main()
 	ImGui_ImplOpenGL3_Init("#version 330");
 	
 	bool drawMesh = true;
-	float size = 1.f;
-	/*
-	float color[4] = { .8f, .3f, .02, 1.f };
-	*/
+	// Creates camera object
+	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
 
-	float rotation = 0;
-	double previousTime = glfwGetTime();
 
 	glEnable(GL_DEPTH_TEST);
 	// Main loop: keep window open until closed
@@ -115,80 +112,38 @@ int main()
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// Only draw the triangle when the checkbox is ticked
+		if (drawMesh)
+		{
+			shader->Activate();
+
+			// handles camera inputs
+			camera->Inputs(window);
+			// updates and exports the camera matrix to the vertex shader
+			camera->Matrix(45.f, 0.1f, 100.f, shader, "camMatrix");
+			
+			// bind texture
+			texture->Bind();
+			// Bind the VAO so OpenGL knows to use it
+			VAO1->Bind();
+			// Draw new cool Triforce!
+			glDrawElements(GL_TRIANGLES, sizeof(pyramidIndices)/sizeof(int), GL_UNSIGNED_INT, 0);
+
+		}
+
 		// declare new ImGui Frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		// Only draw the triangle when the checkbox is ticked
-		if (drawMesh)
-		{
-			double currentTime = glfwGetTime();
-
-			if (currentTime - previousTime > 1 / 60)
-			{
-				rotation += ROTATION_SPEED;
-				previousTime = currentTime;
-			}
-
-			shader->Activate();
-
-			glm::mat4 modelMatrix = glm::mat4(1.f);
-			glm::mat4 viewMatrix = glm::mat4(1.f);
-			glm::mat4 projectionMatrix = glm::mat4(1.f);
-
-			modelMatrix = glm::rotate(modelMatrix, glm::radians(rotation), glm::vec3(0, 1, 0));
-			viewMatrix = glm::translate(viewMatrix, glm::vec3(0.f, -0.5f, -2.f));
-			projectionMatrix = glm::perspective(
-				// FOV angle
-				glm::radians(45.f),
-				// aspect ratio
-				(float) WINDOW_WIDTH/WINDOW_HEIGHT,
-				// near clip plane
-				0.1f,
-				// far clip plane
-				100.f
-			);
-
-			int modelLocation = glGetUniformLocation(shader->ID, "model");
-			glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-
-			int viewLocation = glGetUniformLocation(shader->ID, "view");
-			glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-
-			int projectionLocation = glGetUniformLocation(shader->ID, "projection");
-			glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-
-
-			// export variables to shader
-			shader->setFloatInShader("size", size);
-			choppa->Bind();
-			// shader->setColorInFragmentShader("color", color[0], color[1], color[2], color[3]);
-			
-			// Draw plain old triangle
-			// glDrawArrays(GL_TRIANGLES, 0, 3);
-
-			// Bind the VAO so OpenGL knows to use it
-			VAO1->Bind();
-			// Draw new cool Triforce!
-			glDrawElements(GL_TRIANGLES, sizeof(pyramidIndices)/sizeof(int), GL_UNSIGNED_INT, 0);
-		}
-
 		// ImGUI window creation
 		ImGui::Begin("Modify Triangle");
 		// Checkbox that appears in window
 		ImGui::Checkbox("Draw Mesh", &drawMesh);
-		
-		// Slider that appears in window
-		ImGui::SliderFloat("Size", &size, .5f, 2.f);
-		// Color Picker that appears in window
-		// ImGui::ColorEdit4("Color", color);
+
 		// Closes/Deletes the window
 		ImGui::End();
 
-		
-
-		
 
 		// Render ImGUI Elements
 		ImGui::Render();
@@ -208,7 +163,7 @@ int main()
 	VAO1->Delete();
 	VBO1->Delete();
 	EBO1->Delete();
-	choppa->Delete();
+	texture->Delete();
 	shader->Delete();
 
 	

@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="Libraries\include\stb\std.cpp" />
     <ClCompile Include="src\Shader\EBO\ElementBufferObject.cpp" />
     <ClCompile Include="glad.c" />
@@ -180,6 +181,7 @@
     <ClCompile Include="src\Texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\SimpleShapes.h" />
     <ClInclude Include="src\Shader\EBO\ElementBufferObject.h" />
     <ClInclude Include="imgui\imconfig.h" />
