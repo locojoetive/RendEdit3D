@@ -114,8 +114,10 @@ int main()
 	glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
 	/* TEXTURE */
-	Texture* texture = new Texture("Resources/Textures/planks/planks.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture* texture = new Texture("Resources/Textures/planks/planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
 	texture->texUnit(shader, "tex0", 0);
+	Texture* specularMap = new Texture("Resources/Textures/planks/planksSpec.png", GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE);
+	specularMap->texUnit(shader, "tex1", 1);
 
 	/* ImGUI WINDOW*/
 	// Setup Dear ImGui context
@@ -159,6 +161,7 @@ int main()
 			camera->Matrix(*shader, "camMatrix");
 			// bind texture
 			texture->Bind();
+			specularMap->Bind();
 			// Bind the VAO so OpenGL knows to use it
 			VAO1->Bind();
 			// Draw primitives, number of indices, data type of indices, index of indices
@@ -202,6 +205,7 @@ int main()
 	VBO1->Delete();
 	EBO1->Delete();
 	texture->Delete();
+	specularMap->Delete();
 	shader->Delete();
 	lightVAO->Delete();
 	lightVBO->Delete();
