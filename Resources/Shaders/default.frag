@@ -28,10 +28,13 @@ void main()
 	// diffuse lighting
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
-	// specular lighting
+	// define the lights strength
 	float specularLight = 0.5f;
+	// calculate the camera view dirction
 	vec3 viewDirection = normalize(camPos - currentPos);
+	// calculate the light reflection on the surface
 	vec3 reflectionDirection = reflect(-lightDirection, normal);
+	// calculate the intensity of the specular value
 	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
 	float specular = specAmount * specularLight;
 
