@@ -61,9 +61,9 @@ int main()
 	VertexArrayObject* VAO1 = new VertexArrayObject;
 	VAO1->Bind();
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VertexBufferObject* VBO1 = new VertexBufferObject(pyramid, sizeof(pyramid));
+	VertexBufferObject* VBO1 = new VertexBufferObject(planeVerticies, sizeof(planeVerticies));
 	// Generate Index Buffer Object and Bind it to the indices
-	ElementBufferObject* EBO1 = new ElementBufferObject(pyramidIndices, sizeof(pyramidIndices));
+	ElementBufferObject* EBO1 = new ElementBufferObject(planeIndices, sizeof(pyramidIndices));
 	// Link VBO to VAO, Link shader attributes to VAO
 	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*) 0);
 	VAO1->LinkAttrib(VBO1, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -114,7 +114,7 @@ int main()
 	glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
 	/* TEXTURE */
-	Texture* texture = new Texture("Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture* texture = new Texture("Resources/Textures/planks/planks.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	texture->texUnit(shader, "tex0", 0);
 
 	/* ImGUI WINDOW*/
