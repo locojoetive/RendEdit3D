@@ -50,7 +50,30 @@ vec4 pointLight()
 
 }
 
+vec4 directionalLight()
+{
+	// ambient lighting
+	float ambient = 0.2f;
+	vec3 normal = normalize(Normal);
+	vec3 lightDirection = normalize(vec3(0.f, 1.f, 0.f));
+
+	// diffuse lighting
+	float diffuse = max(dot(normal, lightDirection), 0.f);
+
+	// calculate the camera view dirction
+	vec3 viewDirection = normalize(camPos - currentPos);
+	// calculate the light reflection on the surface
+	vec3 reflectionDirection = reflect(-lightDirection, normal);
+	// calculate the intensity of the specular value
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), specularIntensity);
+	float specular = specAmount * specularLight;
+
+	// outputs final color
+	return (texture(tex0, texCoord) * (diffuse + ambient) + texture(tex1, texCoord).r * specular) * lightColor;
+}
+
 void main()
 {
-	FragColor = pointLight();
+	// FragColor = pointLight();
+	FragColor = directionalLight();
 }
