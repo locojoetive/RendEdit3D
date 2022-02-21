@@ -127,6 +127,8 @@
     <Text Include="Resources\Shaders\default.frag">
       <Filter>Resource Files\shaders</Filter>
     </Text>
+    <Text Include="Resources\Shaders\light.frag" />
+    <Text Include="Resources\Shaders\light.vert" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.vert">
