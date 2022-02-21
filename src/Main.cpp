@@ -61,9 +61,9 @@ int main()
 	VertexArrayObject* VAO1 = new VertexArrayObject;
 	VAO1->Bind();
 	// Generate Vertex Buffer Object and Bind it to the vertices
-	VertexBufferObject* VBO1 = new VertexBufferObject(pyramid, sizeof(pyramid));
+	VertexBufferObject* VBO1 = new VertexBufferObject(planeVerticies, sizeof(planeVerticies));
 	// Generate Index Buffer Object and Bind it to the indices
-	ElementBufferObject* EBO1 = new ElementBufferObject(pyramidIndices, sizeof(pyramidIndices));
+	ElementBufferObject* EBO1 = new ElementBufferObject(planeIndices, sizeof(pyramidIndices));
 	// Link VBO to VAO, Link shader attributes to VAO
 	VAO1->LinkAttrib(VBO1, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*) 0);
 	VAO1->LinkAttrib(VBO1, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -114,8 +114,10 @@ int main()
 	glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
 	/* TEXTURE */
-	Texture* texture = new Texture("Resources/Textures/brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	Texture* texture = new Texture("Resources/Textures/planks/planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
 	texture->texUnit(shader, "tex0", 0);
+	Texture* specularMap = new Texture("Resources/Textures/planks/planksSpec.png", GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE);
+	specularMap->texUnit(shader, "tex1", 1);
 
 	/* ImGUI WINDOW*/
 	// Setup Dear ImGui context
@@ -159,6 +161,7 @@ int main()
 			camera->Matrix(*shader, "camMatrix");
 			// bind texture
 			texture->Bind();
+			specularMap->Bind();
 			// Bind the VAO so OpenGL knows to use it
 			VAO1->Bind();
 			// Draw primitives, number of indices, data type of indices, index of indices
@@ -202,6 +205,7 @@ int main()
 	VBO1->Delete();
 	EBO1->Delete();
 	texture->Delete();
+	specularMap->Delete();
 	shader->Delete();
 	lightVAO->Delete();
 	lightVBO->Delete();

@@ -143,3 +143,18 @@ GLuint lightIndices[]
 	1, 3, 7,
 	7, 5, 1
 };
+
+GLfloat planeVerticies[] =
+{
+	//		COORDINATES			//		COLORS				//	TexCoord		//		NORMALS		//
+	-1.f,	-1.f,	1.f,		0.f,	0.f,	0.f,		0.f,	0.f,		0.f,	1.f,	0.f,
+	-1.f,	-1.f,	-1.f,		0.f,	0.f,	0.f,		0.f,	1.f,		0.f,	1.f,	0.f,
+	1.f,	-1.f,	-1.f,		0.f,	0.f,	0.f,		1.f,	1.f,		0.f,	1.f,	0.f,
+	1.f,	-1.f,	1.f,		0.f,	0.f,	0.f,		1.f,	0.f,		0.f,	1.f,	0.f,
+};
+
+GLuint planeIndices[] =
+{
+	0, 1, 2,
+	0, 2, 3
+};

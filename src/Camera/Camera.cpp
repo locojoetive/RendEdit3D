@@ -102,6 +102,7 @@ void Camera::Inputs(GLFWwindow* window)
 
 		// rotates the forward direction left and right
 		forward = glm::rotate(forward, glm::radians(-rotY), up);
+		right = glm::cross(forward, up);
 
 		// sets mouse cursor to the middle of the screen, so it doesnt get lost
 		glfwSetCursorPos(window, width / 2, height / 2);
