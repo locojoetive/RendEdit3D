@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include <stb/stb_image.h>
 
-Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType)
+Texture::Texture(const char* image, GLenum texType, GLuint slot, GLenum format, GLenum pixelType)
 {
 	// Assigns the type of texture to the texture object
 	type = texType;
@@ -24,7 +24,8 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 	// Generates an OpenGL texture
 	glGenTextures(1, &ID);
 	// Assigns the texture to a texture unit
-	glActiveTexture(slot);
+	glActiveTexture(GL_TEXTURE0 + slot);
+	unit = slot;
 	glBindTexture(type, ID);
 
 	// Configures the type of algorithm to resize the image
@@ -67,6 +68,8 @@ void Texture::texUnit(Shader* shader, const char* uniform, GLuint unit)
 
 void Texture::Bind()
 {
+	// Assigns the texture to a texture unit
+	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(type, ID);
 }
 
