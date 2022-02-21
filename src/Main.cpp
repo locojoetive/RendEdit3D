@@ -138,6 +138,12 @@ int main()
 	
 	// Main loop: keep window open until closed
 	bool drawMesh = true;
+	bool hasClickedInImGUIWindow = false;
+	int specularIntensity = 1;
+	float a = 0.5f,
+		b = 0.5f,
+		specularLight = 0.5f;
+	ImVec2 vMin, vMax;
 	while (!glfwWindowShouldClose(window))
 	{
 
@@ -148,8 +154,6 @@ int main()
 		if (drawMesh)
 		{
 
-			// handles camera inputs
-			camera->Inputs(window);
 			// updates and exports the camera matrix to the vertex shader
 			camera->updateMatrix(45.f, 0.1f, 100.f);
 
@@ -157,6 +161,10 @@ int main()
 			shader->Activate();
 			// Export camera position to the fragment shader for specular lighting
 			glUniform3f(glGetUniformLocation(shader->ID, "camPos"), camera->position.x, camera->position.y, camera->position.z);
+			glUniform1i(glGetUniformLocation(shader->ID, "specularIntensity"), specularIntensity);
+			glUniform1f(glGetUniformLocation(shader->ID, "a"), a);
+			glUniform1f(glGetUniformLocation(shader->ID, "b"), b);
+			glUniform1f(glGetUniformLocation(shader->ID, "specularLight"), specularLight);
 			// Export camMatrix to the object vertex shader
 			camera->Matrix(*shader, "camMatrix");
 			// bind texture
@@ -177,6 +185,7 @@ int main()
 			glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
 		}
 
+		/* ImGUI INTERACTION */
 		// declare new ImGui Frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -185,6 +194,44 @@ int main()
 		ImGui::Begin("Modify Triangle");
 		// Checkbox that appears in window
 		ImGui::Checkbox("Draw Mesh", &drawMesh);
+		ImGui::SliderFloat("a", &a, 0.f, 3.0f);
+		ImGui::SliderFloat("b", &b, 0.f, 3.0f);
+		ImGui::SliderFloat("Specular Light", &specularLight, 0.f, 3.0f);
+		ImGui::SliderInt("Specular Intensity", &specularIntensity, 1, 50);
+
+		// get ImGUI window bounds
+		vMin = ImGui::GetWindowContentRegionMin();
+		vMax = ImGui::GetWindowContentRegionMax();
+		vMin.x += ImGui::GetWindowPos().x;
+		vMin.y += ImGui::GetWindowPos().y;
+		vMax.x += ImGui::GetWindowPos().x;
+		vMax.y += ImGui::GetWindowPos().y;
+
+		// check if left mouse button was clicked
+		if (!hasClickedInImGUIWindow && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		{
+			// stores coordinates of the cursor
+			double mouseX;
+			double mouseY;
+			// fetches the coordinates of the cursor
+			glfwGetCursorPos(window, &mouseX, &mouseY);
+
+			// check if mouse is outside of ImGUI window
+			if (vMin.x > mouseX || vMin.y > mouseY || vMax.x < mouseX || vMax.y < mouseY)
+			{
+				// handles camera inputs
+				camera->Inputs(window);
+			}
+			else
+			{
+				hasClickedInImGUIWindow = true;
+			}
+		}
+		// check if mouse was released after ImGUI interaction
+		else if (hasClickedInImGUIWindow && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+		{
+			hasClickedInImGUIWindow = false;
+		}
 		// Closes/Deletes the window
 		ImGui::End();
 		// Render ImGUI Elements

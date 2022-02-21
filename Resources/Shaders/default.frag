@@ -18,26 +18,39 @@ uniform vec3 lightPos;
 // Gets camera position from program
 uniform vec3 camPos;
 
-void main()
+uniform float a;
+uniform float b;
+uniform float specularLight;
+uniform int specularIntensity;
+
+vec4 pointLight()
 {
+	vec3 lightVector = lightPos - currentPos;
+	float dist = length(lightVector);
+	float inten = 1.0f / (a * dist * dist + b * dist + 1.0f);
+
 	// ambient lighting
 	float ambient = 0.2f;
 	vec3 normal = normalize(Normal);
-	vec3 lightDirection = normalize(lightPos - currentPos);
+	vec3 lightDirection = normalize(lightVector);
 
 	// diffuse lighting
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
-	// define the lights strength
-	float specularLight = 0.5f;
 	// calculate the camera view dirction
 	vec3 viewDirection = normalize(camPos - currentPos);
 	// calculate the light reflection on the surface
 	vec3 reflectionDirection = reflect(-lightDirection, normal);
 	// calculate the intensity of the specular value
-	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), specularIntensity);
 	float specular = specAmount * specularLight;
 
 	// outputs final color
-	FragColor = (texture(tex0, texCoord) * (diffuse + ambient) + texture(tex1, texCoord).r * specular) * lightColor;
+	return (texture(tex0, texCoord) * (diffuse * inten + ambient) + texture(tex1, texCoord).r * specular * inten) * lightColor;
+
+}
+
+void main()
+{
+	FragColor = pointLight();
 }
