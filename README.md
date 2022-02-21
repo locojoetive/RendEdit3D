@@ -10,14 +10,14 @@ This Readme will evolve throughout the development of this tool.
 This project is supposed to have the following features:
 
 1. Load and display 3D models.
-2. Load and apply a given texture to the model
-3. Support user inputs to rotate around and zoom into the model
-4. Support user inputs to change the pivot of the camera's rotation
+2. Load and apply a given texture and specular map to the model
+4. Support user inputs to rotate around and zoom into the model
+5. Support user inputs to change the pivot of the camera's rotation
+2. Allow for different types of light sources
 
 Additional Features may be:
 
 1. Load multiple models with their respective textures
-2. Including a light source
 
 ## 2. Requirements
 
