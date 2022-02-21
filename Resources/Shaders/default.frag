@@ -52,10 +52,12 @@ vec4 pointLight()
 
 vec4 directionalLight()
 {
+	vec3 lightVector = vec3(0.f, 1.f, 0.f);
+
 	// ambient lighting
 	float ambient = 0.2f;
 	vec3 normal = normalize(Normal);
-	vec3 lightDirection = normalize(vec3(0.f, 1.f, 0.f));
+	vec3 lightDirection = normalize(lightVector);
 
 	// diffuse lighting
 	float diffuse = max(dot(normal, lightDirection), 0.f);
@@ -72,8 +74,39 @@ vec4 directionalLight()
 	return (texture(tex0, texCoord) * (diffuse + ambient) + texture(tex1, texCoord).r * specular) * lightColor;
 }
 
+
+vec4 spotLight()
+{
+	// angles between light direction and inner cone in cosine
+	float innerCone = 0.95f;
+	// angles between light direction and outer cone in cosine
+	float outerCone = 0.9f;
+
+	// ambient lighting
+	float ambient = 0.2f;
+	vec3 normal = normalize(Normal);
+	vec3 lightDirection = normalize(lightPos - currentPos);
+
+	// diffuse lighting
+	float diffuse = max(dot(normal, lightDirection), 0.f);
+
+	// calculate the camera view dirction
+	vec3 viewDirection = normalize(camPos - currentPos);
+	// calculate the light reflection on the surface
+	vec3 reflectionDirection = reflect(-lightDirection, normal);
+	// calculate the intensity of the specular value
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), specularIntensity);
+	float specular = specAmount * specularLight;
+
+	float angle = dot(vec3(1.0f, -1.0f, 0.0f), -lightDirection);
+	float intensity = clamp((angle-outerCone) / (innerCone-outerCone), 0.0f, 1.0f);
+	// outputs final color
+	return (texture(tex0, texCoord) * (diffuse * intensity + ambient) + texture(tex1, texCoord).r * specular * intensity) * lightColor;
+}
+
 void main()
 {
 	// FragColor = pointLight();
-	FragColor = directionalLight();
+	// FragColor = directionalLight();
+	FragColor = spotLight();
 }
