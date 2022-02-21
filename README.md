@@ -3,8 +3,6 @@
 I created this project to gain experience with Dear ImGUI in combination with GLFW.
 Throughout its development this Readme will grow and evolve to capture all implemented features and all requirements to setup and build the project
 
-This Readme will evolve throughout the development of this tool.
-
 ### 2. Features
 
 This project is supposed to have the following features:
