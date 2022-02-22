@@ -20,7 +20,15 @@ private:
 	std::vector<uchar> data;
 	json JSON;
 
+	std::vector<Mesh> meshes;
+
+	std::vector<std::string> loadedTextureNames;
+	std::vector<Texture> loadedTextures;
+
 	std::vector<uchar> getData();
+	std::vector<Texture> getTextures();
+
+	void loadMesh(uint indexMesh);
 
 	std::vector<GLfloat> getFloats(json accessor);
 	std::vector<GLuint> getIndices(json accessor);

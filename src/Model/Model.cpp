@@ -9,6 +9,27 @@ Model::Model(const char* file)
 	data = getData();
 }
 
+void Model::loadMesh(uint indexMesh)
+{
+	uint positionAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["POSITION"];
+	uint normalAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["NORMAL"];
+	uint texCoordAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["TEXCOOR_0"];
+	uint indicesAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["indices"];
+
+	std::vector<GLfloat> positionArray = getFloats(JSON["accessors"][positionAccessorIndex]);
+	std::vector<glm::vec3> positions = groupFloatsVec3(positionArray);
+	std::vector<GLfloat> normalArray = getFloats(JSON["accessors"][normalAccessorIndex]);
+	std::vector<glm::vec3> normals = groupFloatsVec3(normalArray);
+	std::vector<GLfloat> texCoordArray = getFloats(JSON["accessors"][texCoordAccessorIndex]);
+	std::vector<glm::vec2> texUVs = groupFloatsVec2(texCoordArray);
+
+	std::vector<Vertex> vertices = assembleVertices(positions, normals, texUVs);
+	std::vector<GLuint> indices = getIndices(JSON["accessors"][indicesAccessorIndex]);
+	std::vector<Texture> textures = getTextures();
+
+	meshes.push_back(Mesh(vertices, indices, textures));
+}
+
 std::vector<uchar> Model::getData()
 {
 	std::string bytesText;
@@ -22,6 +43,51 @@ std::vector<uchar> Model::getData()
 
 	return data;
 }
+
+std::vector<Texture> Model::getTextures()
+{
+	std::vector<Texture> textures;
+	
+	std::string fileStr = std::string(file);
+	std::string fileDirectory = fileStr.substr(0, fileStr.find_last_of('/') + 1);
+
+	for (uint i = 0; i < JSON["images"].size(); i++)
+	{
+		std::string texPath = JSON["images"][i]["uri"];
+		bool skip = false;
+
+		for (uint j = 0; j < loadedTextureNames.size(); j++)
+		{
+			if (loadedTextureNames[j] == texPath)
+			{
+				textures.push_back(loadedTextures[j]);
+				skip = true;
+				break;
+			}
+		}
+
+		if (!skip)
+		{
+			if (texPath.find("baseColor") != std::string::npos)
+			{
+				Texture diffuse = Texture((fileDirectory + texPath).c_str(), "diffuse", loadedTextures.size());
+				textures.push_back(diffuse);
+				loadedTextures.push_back(diffuse);
+				loadedTextureNames.push_back(texPath);
+			}
+			else if (texPath.find("metallicRougness") != std::string::npos)
+			{
+				Texture specular = Texture((fileDirectory + texPath).c_str(), "specular", loadedTextures.size());
+				textures.push_back(specular);
+				loadedTextures.push_back(specular);
+				loadedTextureNames.push_back(texPath);
+			}
+		}
+
+	}
+	return textures;
+}
+
 
 /*
 * This class supports loading 3d models of type *.gltf.
