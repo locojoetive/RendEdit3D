@@ -228,9 +228,17 @@ int main()
 			}
 		}
 		// check if mouse was released after ImGUI interaction
-		else if (hasClickedInImGUIWindow && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 		{
-			hasClickedInImGUIWindow = false;
+			if (hasClickedInImGUIWindow)
+			{
+				hasClickedInImGUIWindow = false;
+			}
+			else
+			{
+				// handles camera inputs
+				camera->Inputs(window);
+			}
 		}
 		// Closes/Deletes the window
 		ImGui::End();
