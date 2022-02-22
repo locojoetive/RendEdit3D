@@ -21,6 +21,10 @@ private:
 	json JSON;
 
 	std::vector<Mesh> meshes;
+	std::vector<glm::vec3> translationsMeshes;
+	std::vector<glm::quat> rotationsMeshes;
+	std::vector<glm::vec3> scalesMeshes;
+	std::vector<glm::mat4> matricesMeshes;
 
 	std::vector<std::string> loadedTextureNames;
 	std::vector<Texture> loadedTextures;
@@ -29,6 +33,8 @@ private:
 	std::vector<Texture> getTextures();
 
 	void loadMesh(uint indexMesh);
+
+	void traverseNode(uint nextNode, glm::mat4 matrix = glm::mat4(1.f));
 
 	std::vector<GLfloat> getFloats(json accessor);
 	std::vector<GLuint> getIndices(json accessor);

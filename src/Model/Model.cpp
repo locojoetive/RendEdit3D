@@ -7,13 +7,23 @@ Model::Model(const char* file)
 
 	Model::file = file;
 	data = getData();
+
+	traverseNode(0);
+}
+
+void Model::Draw(Shader &shader, Camera &camera)
+{
+	for (uint i = 0; i < meshes.size(); i++)
+	{
+		meshes[i].Draw(shader, camera, matricesMeshes[i]);
+	}
 }
 
 void Model::loadMesh(uint indexMesh)
 {
 	uint positionAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["POSITION"];
 	uint normalAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["NORMAL"];
-	uint texCoordAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["TEXCOOR_0"];
+	uint texCoordAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["TEXCOORD_0"];
 	uint indicesAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["indices"];
 
 	std::vector<GLfloat> positionArray = getFloats(JSON["accessors"][positionAccessorIndex]);
@@ -29,6 +39,89 @@ void Model::loadMesh(uint indexMesh)
 
 	meshes.push_back(Mesh(vertices, indices, textures));
 }
+
+void Model::traverseNode(uint nextNode, glm::mat4 matrix)
+{
+	json node = JSON["nodes"][nextNode];
+
+	glm::vec3 translation = glm::vec3(0.f, 0.f, 0.f);
+	if (node.find("translation") != node.end())
+	{
+		float translationValues[3];
+		for (uint i = 0; i < node["translation"].size(); i++)
+		{
+			translationValues[i] = (node["translation"][i]);
+		}
+		translation = glm::make_vec3(translationValues);
+	}
+	glm::quat rotation = glm::quat(1.f, 0.f, 0.f, 0.f);
+	if (node.find("rotation") != node.end())
+	{
+		float rotationValues[4] =
+		{
+			/* 
+			* last index first since:
+			* gltf saves quaternions as (x, y, z, w)
+			* glm saves them as (w, x, y, z)
+			*/
+			
+			node["rotation"][3],
+			node["rotation"][0],
+			node["rotation"][1],
+			node["rotation"][2]
+		};
+		rotation = glm::make_quat(rotationValues);
+	}
+	glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
+	if (node.find("scale") != node.end())
+	{
+		float scaleValues[3];
+		for (uint i = 0; i < node["scale"].size(); i++)
+		{
+			scaleValues[i] = (node["scale"][i]);
+		}
+		scale = glm::make_vec3(scaleValues);
+	}
+	glm::mat4 matNode = glm::mat4(1.f);
+	if (node.find("matrix") != node.end())
+	{
+		float matValues[16];
+		for (uint i = 0; i < node["matrix"].size(); i++)
+		{
+			matValues[i] = (node["matrix"][i]);
+		}
+		matNode = glm::make_mat4(matValues);
+	}
+
+	glm::mat4 translationMatrix = glm::mat4(1.f);
+	glm::mat4 rotationMatrix = glm::mat4(1.f);
+	glm::mat4 scaleMatrix = glm::mat4(1.f);
+
+	translationMatrix = glm::translate(translationMatrix, translation);
+	rotationMatrix = glm::mat4_cast(rotation);
+	scaleMatrix = glm::scale(scaleMatrix, scale);
+
+	glm::mat4 matNextNode = matrix * matNode * translationMatrix * rotationMatrix * scaleMatrix;
+
+	if (node.find("mesh") != node.end())
+	{
+		translationsMeshes.push_back(translation);
+		rotationsMeshes.push_back(rotation);
+		scalesMeshes.push_back(scale);
+		matricesMeshes.push_back(matNextNode);
+
+		loadMesh(node["mesh"]);
+	}
+
+	if (node.find("children") != node.end())
+	{
+		for (uint i = 0; i < node["children"].size(); i++)
+		{
+			traverseNode(node["children"][i], matNextNode);
+		}
+	}
+}
+
 
 std::vector<uchar> Model::getData()
 {
@@ -75,7 +168,7 @@ std::vector<Texture> Model::getTextures()
 				loadedTextures.push_back(diffuse);
 				loadedTextureNames.push_back(texPath);
 			}
-			else if (texPath.find("metallicRougness") != std::string::npos)
+			else if (texPath.find("metallicRoughness") != std::string::npos)
 			{
 				Texture specular = Texture((fileDirectory + texPath).c_str(), "specular", loadedTextures.size());
 				textures.push_back(specular);

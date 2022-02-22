@@ -16,12 +16,14 @@ Texture::Texture(const char* image, const char* texType, GLuint slot)
 	// Reads the image file and stores in in bytes
 	unsigned char* bytes = stbi_load(image, &imageWidth, &imageHeight, &numColorChannels, 0);
 
+	/*
 	// Checks if texture was be loaded
 	if (stbi_failure_reason())
 	{
 		std::cout << "STBI FAILED! REASON: " << stbi_failure_reason();
 		return;
 	}
+	*/
 	
 	// Generates an OpenGL texture
 	glGenTextures(1, &ID);
@@ -65,11 +67,11 @@ Texture::Texture(const char* image, const char* texType, GLuint slot)
 		(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGB,
+			GL_RGBA,
 			imageWidth,
 			imageHeight,
 			0,
-			GL_RGBA,
+			GL_RGB,
 			GL_UNSIGNED_BYTE,
 			bytes
 		);
@@ -80,7 +82,7 @@ Texture::Texture(const char* image, const char* texType, GLuint slot)
 		(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGB,
+			GL_RGBA,
 			imageWidth,
 			imageHeight,
 			0,
