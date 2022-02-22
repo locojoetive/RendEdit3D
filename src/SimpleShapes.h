@@ -3,6 +3,10 @@
 #include <glad/glad.h>
 #include <math.h>
 
+typedef glm::vec3 Vec3;
+typedef glm::vec2 Vec2;
+
+/*
 // Vertices coordinates
 GLfloat triangle[] =
 {
@@ -77,26 +81,86 @@ GLuint squareIndices[] =
 // Vertices coordinates
 GLfloat pyramid[] =
 { //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
-	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+	-0.5f, 0.0f,  0.5f,
+	0.83f, 0.70f, 0.44f,
+	0.0f, 0.0f,
+	0.0f, -1.0f, 0.0f,
 
-	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+	-0.5f, 0.0f, -0.5f,
+	0.83f, 0.70f, 0.44f,
+	0.0f, 5.0f,
+	0.0f, -1.0f, 0.0f,
 
-	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+	0.5f, 0.0f, -0.5f,
+	0.83f, 0.70f, 0.44f,
+	5.0f, 5.0f,
+	0.0f, -1.0f, 0.0f,
 
-	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.8f, 0.5f,  0.0f, // Right side
+	0.5f, 0.0f,  0.5f,
+	0.83f, 0.70f, 0.44f,
+	5.0f, 0.0f,
+	0.0f, -1.0f, 0.0f,
 
-	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f,  0.8f  // Facing side
+	-0.5f, 0.0f,  0.5f,
+	0.83f, 0.70f, 0.44f,
+	0.0f, 0.0f,
+	-0.8f, 0.5f,  0.0f,
+
+	-0.5f, 0.0f, -0.5f,
+	0.83f, 0.70f, 0.44f,
+	5.0f, 0.0f,
+	-0.8f, 0.5f,  0.0f,
+
+	 0.0f, 0.8f,  0.0f,
+	 0.92f, 0.86f, 0.76f,
+	 2.5f, 5.0f,
+	 -0.8f, 0.5f,  0.0f,
+
+
+	-0.5f, 0.0f, -0.5f,
+	0.83f, 0.70f, 0.44f,
+	5.0f, 0.0f,
+	0.0f, 0.5f, -0.8f,
+
+	0.5f, 0.0f, -0.5f,
+	0.83f, 0.70f, 0.44f,
+	0.0f, 0.0f,
+	0.0f, 0.5f, -0.8f,
+
+	0.0f, 0.8f, 0.0f,
+	0.92f, 0.86f, 0.76f,
+	2.5f, 5.0f,
+	0.0f, 0.5f, -0.8f,
+
+	 0.5f, 0.0f, -0.5f,
+	 0.83f, 0.70f, 0.44f,
+	 0.0f, 0.0f,
+	 0.8f, 0.5f, 0.0f,
+
+	 0.5f, 0.0f, 0.5f,
+	 0.83f, 0.70f, 0.44f,
+	 5.0f, 0.0f,
+	 0.8f, 0.5f, 0.0f,
+
+	 0.0f, 0.8f, 0.0f,
+	 0.92f, 0.86f, 0.76f,
+	 2.5f, 5.0f,
+	 0.8f, 0.5f, 0.0f, // Right side
+
+	 0.5f, 0.0f, 0.5f,
+	 0.83f, 0.70f, 0.44f,
+	 5.0f, 0.0f,
+	 0.0f, 0.5f, 0.8f,
+
+	-0.5f, 0.0f, 0.5f,
+	0.83f, 0.70f, 0.44f,
+	0.0f, 0.0f,
+	0.0f, 0.5f, 0.8f,
+
+	0.0f, 0.8f, 0.0f,
+	0.92f, 0.86f, 0.76f,
+	2.5f, 5.0f,
+	0.0f, 0.5f, 0.8f  // Facing side
 };
 
 // Indices for vertices order
@@ -109,20 +173,21 @@ GLuint pyramidIndices[] =
 	10, 12, 11, // Right side
 	13, 15, 14 // Facing side
 };
+*/
 
-GLfloat lightVertices[] =
+Vertex rawLightVertices[] =
 {
-	0.1f, 0.1f, 0.1f,
-	0.1f, 0.1f, -0.1f,
-	0.1f, -0.1f, 0.1f,
-	0.1f, -0.1f, -0.1f,
-	-0.1f, 0.1f, 0.1f,
-	-0.1f, 0.1f, -0.1f,
-	-0.1f, -0.1f, 0.1f,
-	-0.1f, -0.1f, -0.1f
+	Vertex{Vec3(0.1f, 0.1f, 0.1f)},
+	Vertex{Vec3(0.1f, 0.1f, -0.1f)},
+	Vertex{Vec3(0.1f, -0.1f, 0.1f)},
+	Vertex{Vec3(0.1f, -0.1f, -0.1f)},
+	Vertex{Vec3(-0.1f, 0.1f, 0.1f)},
+	Vertex{Vec3(-0.1f, 0.1f, -0.1f)},
+	Vertex{Vec3(-0.1f, -0.1f, 0.1f)},
+	Vertex{Vec3(-0.1f, -0.1f, -0.1f)}
 };
 
-GLuint lightIndices[]
+GLuint rawLightIndices[]
 {
 	// right surface
 	0, 2, 1,
@@ -144,13 +209,13 @@ GLuint lightIndices[]
 	7, 5, 1
 };
 
-GLfloat planeVerticies[] =
+Vertex planeVerticies[] =
 {
 	//		COORDINATES			//		COLORS				//	TexCoord		//		NORMALS		//
-	-1.f,	-1.f,	1.f,		0.f,	0.f,	0.f,		0.f,	0.f,		0.f,	1.f,	0.f,
-	-1.f,	-1.f,	-1.f,		0.f,	0.f,	0.f,		0.f,	1.f,		0.f,	1.f,	0.f,
-	1.f,	-1.f,	-1.f,		0.f,	0.f,	0.f,		1.f,	1.f,		0.f,	1.f,	0.f,
-	1.f,	-1.f,	1.f,		0.f,	0.f,	0.f,		1.f,	0.f,		0.f,	1.f,	0.f,
+	Vertex{Vec3(-1.f,	-1.f, 1.f), Vec3(0.f, 1.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec2(0.f,	0.f)},
+	Vertex{Vec3(-1.f,	-1.f, -1.f), Vec3(0.f, 1.f, 0.f), Vec3(0.f,	0.f, 0.f), Vec2(0.f, 1.f)},
+	Vertex{Vec3(1.f, -1.f, -1.f), Vec3(0.f,	1.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec2(1.f, 1.f)},
+	Vertex{Vec3(1.f, -1.f, 1.f), Vec3(0.f, 1.f, 0.f), Vec3(0.f,	0.f, 0.f), Vec2(1.f, 0.f)}
 };
 
 GLuint planeIndices[] =
