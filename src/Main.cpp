@@ -1,7 +1,3 @@
-#include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
-
 #include "Mesh/Mesh.h"
 #include "SimpleShapes.h"
 
@@ -36,11 +32,6 @@ int main()
 	// Specify the view port
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-
-	/*
-	texture->texUnit(*shader, "tex0", 0);
-	specularMap->texUnit(*shader, "tex1", 1);
-	*/
 
 	/* TEXTURE */
 	Texture rawTextures[] =
@@ -118,7 +109,6 @@ int main()
 
 		// draw floor
 		floor.Draw(*shader, *camera);
-
 		// draw light
 		light.Draw(*lightShader, *camera);
 
