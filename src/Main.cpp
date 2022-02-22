@@ -36,8 +36,8 @@ int main()
 	/* TEXTURE */
 	Texture rawTextures[] =
 	{
-		Texture("Resources/Textures/planks/planks.png", "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
-		Texture("Resources/Textures/planks/planksSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
+		Texture("Resources/Textures/planks/planks.png", "diffuse", 0),
+		Texture("Resources/Textures/planks/planksSpec.png", "specular", 1)
 	};
 
 	/* OBJECT SHADER */
