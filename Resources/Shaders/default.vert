@@ -24,14 +24,26 @@ out vec2 texCoord;
 // world to screen matrix
 uniform mat4 camMatrix;
 // model to world matrix
+uniform mat4 translation;
+uniform mat4 rotation;
+uniform mat4 scale;
 uniform mat4 model;
 
 void main()
 {
-	currentPos = vec3(model * vec4(aPos, 1.0f));
+	/* MAGIC NUMBER	
+	 * negative rotation necessary
+	 * might be due to different rotation standards in glm and gltf
+	 */
+	// 
+	currentPos = vec3(model * translation * -rotation * scale * vec4(aPos, 1.0f));
 	Normal = aNormal;
 	color = aColor;
-	texCoord = aTex;
+	/* MAGIC NUMBER
+	 *  rotate the texture coordinates by 90 degrees
+	 *  this also might be due to different rotation standards in glm and gltf
+	 */
+	texCoord = mat2(0.0, -1.0, 1.0, 0.0) * aTex;
 
 	// outputs the position of a vertex
 	gl_Position = camMatrix * vec4(currentPos , 1.0);
