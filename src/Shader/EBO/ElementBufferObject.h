@@ -1,12 +1,15 @@
 #pragma once
+
+#include <vector>
 #include <glad/glad.h>
+
 class ElementBufferObject
 {
 public:
 	// ID reference of Element Buffer Object
 	GLuint ID;
 	// Constructs an Element Buffer Object and links it to indices
-	ElementBufferObject(GLuint* indices, GLsizeiptr size);
+	ElementBufferObject(std::vector<GLuint> &indices);
 
 	// Binds the EBO
 	void Bind();

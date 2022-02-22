@@ -1,7 +1,7 @@
 #include "VertexBufferObject.h"
 
 // Constructs a Vertex Buffer Object and links it to vertices
-VertexBufferObject::VertexBufferObject(GLfloat* vertices, GLsizeiptr size)
+VertexBufferObject::VertexBufferObject(std::vector<Vertex> &vertices)
 {
 	// Generate the Vertex Buffer Object
 	glGenBuffers(1, &ID);
@@ -9,7 +9,7 @@ VertexBufferObject::VertexBufferObject(GLfloat* vertices, GLsizeiptr size)
 	glBindBuffer(GL_ARRAY_BUFFER, ID);
 
 	// Introduce the vertices into the VBO
-	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
 }
 
 // Binds the VBO
