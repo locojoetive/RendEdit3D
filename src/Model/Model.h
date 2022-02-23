@@ -4,7 +4,7 @@
 #include "../Mesh/Mesh.h"
 
 using json = nlohmann::json;
-using uchar = unsigned int;
+using uchar = unsigned char;
 using uint = unsigned int;
 using ushort = unsigned short;
 
