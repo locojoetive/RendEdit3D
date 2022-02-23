@@ -27,7 +27,7 @@ public:
 	int width, height;
 
 	// movement speed of the camera
-	float speed = 0.05f;
+	float speed = 0.5f;
 
 	// rotation sensitivity of the camera
 	float sensitivity = 100.f;
