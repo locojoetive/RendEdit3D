@@ -44,6 +44,7 @@ int main()
 		// Load Fragment Shader
 		"Resources/Shaders/default.frag"
 	);
+	Shader* outline = new Shader("Resources/Shaders/outline.vert", "Resources/Shaders/outline.frag");
 
 	// Define light features
 	glm::vec4 lightColor = glm::vec4(1.f, 1.f, 1.f, 1.f);
@@ -58,6 +59,8 @@ int main()
 	
 	// Enables depth test to specify
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 	// Creates camera object
 	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
@@ -69,7 +72,7 @@ int main()
 	{
 
 		glClearColor(0.85f, 0.85f, 0.90f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		// handles camera inputs
 		camera->Inputs(window);
@@ -80,7 +83,21 @@ int main()
 		glUniform1f(glGetUniformLocation(shader->ID, "near"), CAMERA_NEAR_CLIP_DISTANCE);
 		glUniform1f(glGetUniformLocation(shader->ID, "far"), CAMERA_FAR_CLIP_DISTANCE);
 
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
 		model.Draw(*shader, *camera);
+
+		// draw model outlines
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+		glDisable(GL_DEPTH_TEST);
+		outline->Activate();
+		glUniform1f(glGetUniformLocation(outline->ID, "outlining"), 0.08f);
+		model.Draw(*outline, *camera);
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0xFF);
+		glEnable(GL_DEPTH_TEST);
+
 
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
