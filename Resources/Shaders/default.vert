@@ -36,7 +36,7 @@ void main()
 	color = aColor;
 	/* MAGIC NUMBER
 	 *  rotate the texture coordinates by 90 degrees
-	 *  this also might be due to different rotation standards in glm and gltf
+	 *  this might be due to different rotation standards in glm and gltf
 	 */
 	texCoord = mat2(0.0, -1.0, 1.0, 0.0) * aTex;
 
