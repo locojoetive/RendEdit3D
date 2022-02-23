@@ -26,11 +26,11 @@ void Model::loadMesh(uint indexMesh)
 	uint texCoordAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["TEXCOORD_0"];
 	uint indicesAccessorIndex = JSON["meshes"][indexMesh]["primitives"][0]["indices"];
 
-	std::vector<GLfloat> positionArray = getFloats(JSON["accessors"][positionAccessorIndex]);
+	std::vector<float> positionArray = getFloats(JSON["accessors"][positionAccessorIndex]);
 	std::vector<glm::vec3> positions = groupFloatsVec3(positionArray);
-	std::vector<GLfloat> normalArray = getFloats(JSON["accessors"][normalAccessorIndex]);
+	std::vector<float> normalArray = getFloats(JSON["accessors"][normalAccessorIndex]);
 	std::vector<glm::vec3> normals = groupFloatsVec3(normalArray);
-	std::vector<GLfloat> texCoordArray = getFloats(JSON["accessors"][texCoordAccessorIndex]);
+	std::vector<float> texCoordArray = getFloats(JSON["accessors"][texCoordAccessorIndex]);
 	std::vector<glm::vec2> texUVs = groupFloatsVec2(texCoordArray);
 
 	std::vector<Vertex> vertices = assembleVertices(positions, normals, texUVs);
@@ -187,12 +187,11 @@ std::vector<Texture> Model::getTextures()
 * Since it is in JSON formal, the fields are read using a JSON parser.
 * Quick reference of gltf: https://www.khronos.org/files/gltf20-reference-guide.pdf
 */
-std::vector<GLfloat> Model::getFloats(json accessor)
+std::vector<float> Model::getFloats(json accessor)
 {
-	std::vector<GLfloat> floatVector;
-	// points to the correct
+	std::vector<float> floatVector;
+
 	uint buffViewIndex = accessor.value("bufferView", 1);
-	// how many floats do we get?
 	uint count = accessor["count"];
 	uint accByteOffset = accessor.value("byteOffset", 0);
 	std::string type = accessor["type"];
@@ -201,7 +200,6 @@ std::vector<GLfloat> Model::getFloats(json accessor)
 	uint byteOffset = bufferView["byteOffset"];
 
 	uint numPerVert;
-
 	if (type == "SCALAR")
 	{
 		numPerVert = 1;
@@ -220,7 +218,7 @@ std::vector<GLfloat> Model::getFloats(json accessor)
 	}
 	else
 	{
-		throw std::invalid_argument("Type is invalid (nor SCALAR, VEC2, VEC3 or VEC4");
+		throw std::invalid_argument("Type is invalid (not SCALAR, VEC2, VEC3 nor VEC4");
 	}
 
 	uint beginningOfData = byteOffset + accByteOffset;
@@ -230,7 +228,7 @@ std::vector<GLfloat> Model::getFloats(json accessor)
 		uchar bytes[] = { data[i++], data[i++], data[i++], data[i++] };
 		float value;
 		std::memcpy(&value, bytes, sizeof(float));
-		floatVector.push_back((GLfloat)value);
+		floatVector.push_back(value);
 	}
 
 	return floatVector;

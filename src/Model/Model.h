@@ -36,7 +36,7 @@ private:
 
 	void traverseNode(uint nextNode, glm::mat4 matrix = glm::mat4(1.f));
 
-	std::vector<GLfloat> getFloats(json accessor);
+	std::vector<float> getFloats(json accessor);
 	std::vector<GLuint> getIndices(json accessor);
 
 	std::vector<glm::vec2> groupFloatsVec2(std::vector<float> floatVec);
