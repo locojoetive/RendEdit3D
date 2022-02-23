@@ -53,8 +53,8 @@ int main()
 
 	// export values to object shader
 	shader->Activate();
-	glUniform4f(glGetUniformLocation(shader->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+	shader->SetUniform4f("lightColor", lightColor);
+	shader->SetUniform3f("lightPos", lightPos);
 	
 	// Enables depth test to specify
 	glEnable(GL_DEPTH_TEST);
@@ -93,17 +93,18 @@ int main()
 			camera->Inputs(window);
 		}
 
-		glClearColor(0.85f, 0.85f, 0.90f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 		// updates and exports the camera matrix to the vertex shader
 		camera->updateMatrix(CAMERA_FOV_DEGREE, CAMERA_NEAR_CLIP_DISTANCE, CAMERA_FAR_CLIP_DISTANCE);
 		shader->Activate();
-		glUniform1f(glGetUniformLocation(shader->ID, "near"), CAMERA_NEAR_CLIP_DISTANCE);
-		glUniform1f(glGetUniformLocation(shader->ID, "far"), CAMERA_FAR_CLIP_DISTANCE);
 
 		model.Draw(*shader, *camera);
+		shader->SetUniform1f("near", CAMERA_NEAR_CLIP_DISTANCE);
+		shader->SetUniform1f("far", CAMERA_FAR_CLIP_DISTANCE);
+		
 
 
 		glfwSwapBuffers(window);

@@ -79,6 +79,25 @@ void Shader::Delete()
 	glDeleteProgram(ID);
 }
 
+
+void Shader::SetUniform1f(std::string key, float value)
+{
+	glUniform1f(glGetUniformLocation(ID, key.c_str()), value);
+}
+void Shader::SetUniform2f(std::string key, glm::vec2 value)
+{
+	glUniform2f(glGetUniformLocation(ID, key.c_str()), value.x, value.y);
+}
+void Shader::SetUniform3f(std::string key, glm::vec3 value)
+{
+	glUniform3f(glGetUniformLocation(ID, key.c_str()), value.x, value.y, value.z);
+}
+void Shader::SetUniform4f(std::string key, glm::vec4 value)
+{
+	glUniform4f(glGetUniformLocation(ID, key.c_str()), value.x, value.y, value.z, value.w);
+}
+
+
 void Shader::compileErrors(unsigned int shader, const char* type)
 {
 	GLint hasCompiled;
