@@ -23,9 +23,9 @@ void Camera::updateMatrix(float FOVdegree, float nearPlaneDistance, float farPla
 		// aspect ratio
 		(float) width / height,
 		// near clip plane distance
-		0.1f,
+		nearPlaneDistance,
 		// far clip plane distance
-		100.f
+		farPlaneDistance
 	);
 
 	// Update the camera matrix

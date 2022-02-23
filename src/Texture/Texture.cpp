@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include <stb/stb_image.h>
 
-Texture::Texture(const char* image, const char* texType, GLuint slot, GLenum format, GLenum pixelType)
+Texture::Texture(const char* image, const char* texType, GLuint slot)
 {
 	// Assigns the type of texture to the texture object
 	type = texType;
@@ -16,12 +16,14 @@ Texture::Texture(const char* image, const char* texType, GLuint slot, GLenum for
 	// Reads the image file and stores in in bytes
 	unsigned char* bytes = stbi_load(image, &imageWidth, &imageHeight, &numColorChannels, 0);
 
+	/*
 	// Checks if texture was be loaded
 	if (stbi_failure_reason())
 	{
 		std::cout << "STBI FAILED! REASON: " << stbi_failure_reason();
 		return;
 	}
+	*/
 	
 	// Generates an OpenGL texture
 	glGenTextures(1, &ID);
@@ -44,7 +46,55 @@ Texture::Texture(const char* image, const char* texType, GLuint slot, GLenum for
 	*/
 
 	// Assigns the image to the OpenGL Texture Object
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, format, pixelType, bytes);
+	if (numColorChannels == 4)
+	{
+		glTexImage2D
+		(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			imageWidth,
+			imageHeight,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			bytes
+		);
+	}
+	else if (numColorChannels == 3)
+	{
+		glTexImage2D
+		(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			imageWidth,
+			imageHeight,
+			0,
+			GL_RGB,
+			GL_UNSIGNED_BYTE,
+			bytes
+		);
+	}
+	else if (numColorChannels == 1)
+	{
+		glTexImage2D
+		(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			imageWidth,
+			imageHeight,
+			0,
+			GL_RED,
+			GL_UNSIGNED_BYTE,
+			bytes
+		);
+	}
+	else
+	{
+		throw std::invalid_argument("Automatic Texture type recognition failed");
+	}
 
 	// Generate MipMap of the current Texture
 	glGenerateMipmap(GL_TEXTURE_2D);
