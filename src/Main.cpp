@@ -72,7 +72,7 @@ int main()
 		camera->Inputs(window);
 
 		// updates and exports the camera matrix to the vertex shader
-		camera->updateMatrix(45.f, 0.1f, 100.f);
+		camera->updateMatrix(45.f, 0.1f, 1000.f);
 
 		model.Draw(*shader, *camera);
 
