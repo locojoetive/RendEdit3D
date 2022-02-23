@@ -15,13 +15,13 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Plane"
+            "name" : "Grid"
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material.001",
+            "name" : "Material.002",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -33,7 +33,7 @@
     ],
     "meshes" : [
         {
-            "name" : "Plane",
+            "name" : "Grid",
             "primitives" : [
                 {
                     "attributes" : {
@@ -56,12 +56,12 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "diffuse",
+            "name" : "ground",
             "uri" : "diffuse.png"
         },
 	{
             "mimeType" : "image/png",
-            "name" : "specular",
+            "name" : "ground",
             "uri" : "specular.png"
         }
     ],
@@ -69,58 +69,58 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 529,
+            "count" : 821,
             "max" : [
-                25.065658569335938,
-                2.759140729904175,
-                25.54190444946289
+                24.990324020385742,
+                3.478961706161499,
+                25.029571533203125
             ],
             "min" : [
-                -25.414392471313477,
-                0.009261826984584332,
-                -25.162227630615234
+                -24.979047775268555,
+                -2.1335973739624023,
+                -24.99422264099121
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 529,
+            "count" : 821,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 529,
+            "count" : 821,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 2904,
+            "count" : 3456,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 6348,
+            "byteLength" : 9852,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 6348,
-            "byteOffset" : 6348
+            "byteLength" : 9852,
+            "byteOffset" : 9852
         },
         {
             "buffer" : 0,
-            "byteLength" : 4232,
-            "byteOffset" : 12696
+            "byteLength" : 6568,
+            "byteOffset" : 19704
         },
         {
             "buffer" : 0,
-            "byteLength" : 5808,
-            "byteOffset" : 16928
+            "byteLength" : 6912,
+            "byteOffset" : 26272
         }
     ],
     "samplers" : [
@@ -131,7 +131,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 22736,
+            "byteLength" : 33184,
             "uri" : "scene.bin"
         }
     ]
