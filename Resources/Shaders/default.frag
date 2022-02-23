@@ -21,14 +21,14 @@ uniform vec3 camPos;
 
 vec4 pointLight()
 {
-	float a = 0.5f;
-	float b = 0.5f;
+	float a = 0.1f;
+	float b = 0.1f;
 	vec3 lightVector = lightPos - currentPos;
 	float dist = length(lightVector);
 	float inten = 1.0f / (a * dist * dist + b * dist + 1.0f);
 
 	// ambient lighting
-	float ambient = 0.2f;
+	float ambient = 0.5f;
 	vec3 normal = normalize(Normal);
 	vec3 lightDirection = normalize(lightVector);
 
@@ -52,7 +52,7 @@ vec4 pointLight()
 
 vec4 directionalLight()
 {
-	vec3 lightVector = vec3(0.f, 1.f, 0.f);
+	vec3 lightVector = vec3(1.f, 1.f, 0.f);
 
 	// ambient lighting
 	float ambient = 0.2f;
@@ -111,6 +111,6 @@ vec4 spotLight()
 void main()
 {
 	// FragColor = pointLight();
-	// FragColor = directionalLight();
-	FragColor = spotLight();
+	FragColor = directionalLight();
+	// FragColor = spotLight();
 }

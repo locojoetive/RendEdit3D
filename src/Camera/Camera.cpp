@@ -91,13 +91,14 @@ void Camera::Inputs(GLFWwindow* window)
 		float rotY = sensitivity * (float)(mouseX - (width/ 2)) / width;
 
 		// calculates upcoming up and down rotation of the forward orientation
-		glm::vec3 orientation = glm::rotate(forward, glm::radians(-rotX), glm::normalize(glm::cross(forward, up)));
+		glm::vec3 nextForward = glm::rotate(forward, glm::radians(-rotX), glm::normalize(glm::cross(forward, up)));
 
 
 		// decides wether or not the new vertical orientation is legal
-		if (!(glm::angle(orientation, up) <= glm::radians(5.f)) or (glm::angle(orientation, -up) <= glm::radians(5.0f)))
+		// if (!(glm::angle(nextForward, up) <= glm::radians(5.f)) or (glm::angle(nextForward, -up) <= glm::radians(-5.f)))
+		if (abs(glm::angle(nextForward, up) - glm::radians(90.f)) <= glm::radians(85.f))
 		{
-			forward = orientation;
+			forward = nextForward;
 		}
 
 		// rotates the forward direction left and right

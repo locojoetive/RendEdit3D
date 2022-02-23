@@ -44,7 +44,7 @@ int main()
 
 	// Define light features
 	glm::vec4 lightColor = glm::vec4(1.f, 1.f, 1.f, 1.f);
-	glm::vec3 lightPos = glm::vec3(.5f, .5f, .5f);
+	glm::vec3 lightPos = glm::vec3(5.f, 5.f, 5.f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
 
@@ -59,7 +59,7 @@ int main()
 	// Creates camera object
 	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
 	
-	Model model("Resources/Models/sword/scene.gltf\0");
+	Model model("Resources/Models/matilda/scene.gltf");
 
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
@@ -73,7 +73,6 @@ int main()
 
 		// updates and exports the camera matrix to the vertex shader
 		camera->updateMatrix(45.f, 0.1f, 1000.f);
-
 		model.Draw(*shader, *camera);
 
 		glfwSwapBuffers(window);
