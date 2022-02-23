@@ -60,11 +60,7 @@ void Mesh::Draw(
 	glm::mat4 scaleMatrix = glm::mat4(1.f);
 
 	translationMatrix = glm::translate(translationMatrix, translation);
-	/* MAGIC NUMBER
-	 * negative rotation necessary
-	 * might be due to different rotation standards in glm and gltf
-	 */
-	rotationMatrix = -glm::mat4_cast(rotation);
+	rotationMatrix = glm::mat4_cast(rotation);
 	scaleMatrix = glm::scale(scaleMatrix, scale);
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "translation"), 1, GL_FALSE, glm::value_ptr(translationMatrix));
