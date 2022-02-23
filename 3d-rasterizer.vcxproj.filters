@@ -148,5 +148,6 @@
     </None>
     <None Include="Resources\Shaders\outline.frag" />
     <None Include="Resources\Shaders\outline.vert" />
+    <None Include="Resources\Shaders\grass.frag" />
   </ItemGroup>
 </Project>

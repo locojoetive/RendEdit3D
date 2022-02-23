@@ -45,6 +45,14 @@ int main()
 		"Resources/Shaders/default.frag"
 	);
 
+	// Create Shader Object using default Vertex and Fragment Shaders
+	Shader* grassShader = new Shader(
+		// Load Vertex Shader
+		"Resources/Shaders/default.vert",
+		// Load Fragment Shader
+		"Resources/Shaders/grass.frag"
+	);
+
 	// Define light features
 	glm::vec4 lightColor = glm::vec4(1.f, 1.f, 1.f, 1.f);
 	glm::vec3 lightPos = glm::vec3(5.f, 5.f, 5.f);
@@ -56,6 +64,10 @@ int main()
 	shader->SetUniform4f("lightColor", lightColor);
 	shader->SetUniform3f("lightPos", lightPos);
 	
+	grassShader->Activate();
+	grassShader->SetUniform4f("lightColor", lightColor);
+	grassShader->SetUniform3f("lightPos", lightPos);
+
 	// Enables depth test to specify
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_STENCIL_TEST);
@@ -69,7 +81,9 @@ int main()
 	// Creates camera object
 	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
 
-	Model model("Resources/Models/map/scene.gltf");
+	Model grass("Resources/Models/grass/scene.gltf");
+	Model ground("Resources/Models/ground/scene.gltf");
+
 	double previousTime = 0;
 	double currentTime = 0;
 	double timeDifference;
@@ -100,11 +114,12 @@ int main()
 		// updates and exports the camera matrix to the vertex shader
 		camera->updateMatrix(CAMERA_FOV_DEGREE, CAMERA_NEAR_CLIP_DISTANCE, CAMERA_FAR_CLIP_DISTANCE);
 		shader->Activate();
-
-		model.Draw(*shader, *camera);
 		shader->SetUniform1f("near", CAMERA_NEAR_CLIP_DISTANCE);
 		shader->SetUniform1f("far", CAMERA_FAR_CLIP_DISTANCE);
 		
+		ground.Draw(*shader, *camera);
+		glDisable(GL_CULL_FACE);
+		grass.Draw(*grassShader, *camera);
 
 
 		glfwSwapBuffers(window);
@@ -113,6 +128,7 @@ int main()
 	}
 
 	shader->Delete();
+	grassShader->Delete();
 	
 	glfwDestroyWindow(window);
 	glfwTerminate();
