@@ -71,16 +71,32 @@ int main()
 	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
 
 	Model model("Resources/Models/map/scene.gltf");
+	double previousTime = 0;
+	double currentTime = 0;
+	double timeDifference;
+	uint counter = 0;
 
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
 	{
+		currentTime = glfwGetTime();
+		timeDifference = currentTime - previousTime;
+		counter++;
+		if (timeDifference >= 1.0 / 30.0)
+		{
+			std::string FPS = std::to_string((1.0 / timeDifference) * counter);
+			std::string ms = std::to_string((timeDifference / counter) * 1000);
+			std::string newTitle = "3D-Rasterizer - (" + FPS + "FPS / " + ms + "ms";
+			glfwSetWindowTitle(window, newTitle.c_str());
+			previousTime = currentTime;
+
+			// handles camera inputs
+			camera->Inputs(window);
+		}
 
 		glClearColor(0.85f, 0.85f, 0.90f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		// handles camera inputs
-		camera->Inputs(window);
 
 		// updates and exports the camera matrix to the vertex shader
 		camera->updateMatrix(CAMERA_FOV_DEGREE, CAMERA_NEAR_CLIP_DISTANCE, CAMERA_FAR_CLIP_DISTANCE);
