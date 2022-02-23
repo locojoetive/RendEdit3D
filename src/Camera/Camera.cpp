@@ -19,7 +19,7 @@ void Camera::updateMatrix(float FOVdegree, float nearPlaneDistance, float farPla
 	// declares the view frustrum and adds perspective to the scene
 	projection = glm::perspective(
 		// FOV angle
-		glm::radians(45.f),
+		glm::radians(FOVdegree),
 		// aspect ratio
 		(float) width / height,
 		// near clip plane distance

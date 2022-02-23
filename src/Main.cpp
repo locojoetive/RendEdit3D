@@ -3,6 +3,9 @@
 
 #define WINDOW_WIDTH 1920
 #define WINDOW_HEIGHT 1080
+#define CAMERA_FOV_DEGREE 45.f
+#define CAMERA_NEAR_CLIP_DISTANCE 0.1f
+#define CAMERA_FAR_CLIP_DISTANCE 1000.f
 
 int main()
 {
@@ -72,7 +75,7 @@ int main()
 		camera->Inputs(window);
 
 		// updates and exports the camera matrix to the vertex shader
-		camera->updateMatrix(45.f, 0.1f, 1000.f);
+		camera->updateMatrix(CAMERA_FOV_DEGREE, CAMERA_NEAR_CLIP_DISTANCE, CAMERA_FAR_CLIP_DISTANCE);
 		model.Draw(*shader, *camera);
 
 		glfwSwapBuffers(window);
