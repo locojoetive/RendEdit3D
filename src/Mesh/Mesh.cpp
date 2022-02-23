@@ -53,7 +53,6 @@ void Mesh::Draw(
 		textures[i].Bind();
 	}
 	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.position.x, camera.position.y, camera.position.z);
-	// why this here???
 	camera.Matrix(shader, "camMatrix");
 
 	glm::mat4 translationMatrix = glm::mat4(1.f);
@@ -61,7 +60,11 @@ void Mesh::Draw(
 	glm::mat4 scaleMatrix = glm::mat4(1.f);
 
 	translationMatrix = glm::translate(translationMatrix, translation);
-	rotationMatrix = glm::mat4_cast(rotation);
+	/* MAGIC NUMBER
+	 * negative rotation necessary
+	 * might be due to different rotation standards in glm and gltf
+	 */
+	rotationMatrix = -glm::mat4_cast(rotation);
 	scaleMatrix = glm::scale(scaleMatrix, scale);
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "translation"), 1, GL_FALSE, glm::value_ptr(translationMatrix));

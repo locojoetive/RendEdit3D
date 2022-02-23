@@ -31,12 +31,7 @@ uniform mat4 model;
 
 void main()
 {
-	/* MAGIC NUMBER	
-	 * negative rotation necessary
-	 * might be due to different rotation standards in glm and gltf
-	 */
-	// 
-	currentPos = vec3(model * translation * -rotation * scale * vec4(aPos, 1.0f));
+	currentPos = vec3(model * translation * rotation * scale * vec4(aPos, 1.0f));
 	Normal = aNormal;
 	color = aColor;
 	/* MAGIC NUMBER
