@@ -204,6 +204,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.vert" />
+    <None Include="Resources\Shaders\outline.frag" />
+    <None Include="Resources\Shaders\outline.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\Shaders\default.frag" />

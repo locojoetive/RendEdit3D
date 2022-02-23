@@ -146,5 +146,7 @@
     <None Include="Resources\Shaders\default.vert">
       <Filter>Resource Files\shaders</Filter>
     </None>
+    <None Include="Resources\Shaders\outline.frag" />
+    <None Include="Resources\Shaders\outline.vert" />
   </ItemGroup>
 </Project>
