@@ -18,6 +18,9 @@ uniform vec3 lightPos;
 // Gets camera position from program
 uniform vec3 camPos;
 
+// Gets camera near and far clip plane distance
+uniform float near = 0.1f;
+uniform float far = 100.f;
 
 vec4 pointLight()
 {
@@ -108,9 +111,22 @@ vec4 spotLight()
 	return (texture(diffuse0, texCoord) * (diffuse * intensity + ambient) + texture(specular0, texCoord).r * specular * intensity) * lightColor;
 }
 
+float linearizeDepth(float depth)
+{
+	return (2.0 * near * far) / (far + near - (depth * 2.0 - 1.0) * (far - near));
+}
+
+float logisticDepth(float depth, float steepness, float offset)
+{
+	float zValue = linearizeDepth(depth);
+	return (1 / (1 + exp(-steepness * (zValue - offset))));
+}
+
 void main()
 {
 	// FragColor = pointLight();
-	FragColor = directionalLight();
+	// FragColor = directionalLight();
 	// FragColor = spotLight();
+	float depth = logisticDepth(gl_FragCoord.z, 1.f, 5.0f);
+	FragColor = directionalLight() * (1.0f - depth) + vec4(depth * vec3(0.85, 0.85, 0.90f), 1.0f);
 }

@@ -61,14 +61,14 @@ int main()
 
 	// Creates camera object
 	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
-	
-	Model model("Resources/Models/matilda/scene.gltf");
+
+	Model model("Resources/Models/map/scene.gltf");
 
 	// Main loop: keep window open until closed
 	while (!glfwWindowShouldClose(window))
 	{
 
-		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+		glClearColor(0.85f, 0.85f, 0.90f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// handles camera inputs
@@ -76,6 +76,10 @@ int main()
 
 		// updates and exports the camera matrix to the vertex shader
 		camera->updateMatrix(CAMERA_FOV_DEGREE, CAMERA_NEAR_CLIP_DISTANCE, CAMERA_FAR_CLIP_DISTANCE);
+		shader->Activate();
+		glUniform1f(glGetUniformLocation(shader->ID, "near"), CAMERA_NEAR_CLIP_DISTANCE);
+		glUniform1f(glGetUniformLocation(shader->ID, "far"), CAMERA_FAR_CLIP_DISTANCE);
+
 		model.Draw(*shader, *camera);
 
 		glfwSwapBuffers(window);
