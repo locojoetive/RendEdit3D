@@ -25,7 +25,8 @@ public:
 	void Activate();
 	void Deactivate();
 	void Delete();
-
+	
+	void SetUniform1i(std::string key, int value);
 	void SetUniform1f(std::string key, float value);
 	void SetUniform2f(std::string key, glm::vec2 value);
 	void SetUniform3f(std::string key, glm::vec3 value);

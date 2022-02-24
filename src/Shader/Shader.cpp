@@ -80,6 +80,10 @@ void Shader::Delete()
 }
 
 
+void Shader::SetUniform1i(std::string key, int value)
+{
+	glUniform1i(glGetUniformLocation(ID, key.c_str()), value);
+}
 void Shader::SetUniform1f(std::string key, float value)
 {
 	glUniform1f(glGetUniformLocation(ID, key.c_str()), value);
