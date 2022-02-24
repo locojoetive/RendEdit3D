@@ -223,3 +223,15 @@ GLuint planeIndices[] =
 	0, 1, 2,
 	0, 2, 3
 };
+
+float rectangleVertices[] =
+{
+	// Coords	// texCoords
+	 1.f, -1.f, 1.f, 0.f,
+	-1.f, -1.f, 0.f, 0.f,
+	-1.f,  1.f,	0.f, 1.f,
+
+	 1.f,  1.f, 1.f, 1.f,
+	 1.f, -1.f, 1.f, 0.f,
+	-1.f,  1.f, 0.f, 1.f
+};
