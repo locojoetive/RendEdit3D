@@ -80,9 +80,7 @@ int main()
 
 	// Creates camera object
 	Camera* camera = new Camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.f, 0.f, 2.f));
-
-	Model grass("Resources/Models/grass/scene.gltf");
-	Model ground("Resources/Models/ground/scene.gltf");
+	Model model("Resources/Models/crow/scene.gltf");
 
 	double previousTime = 0;
 	double currentTime = 0;
@@ -117,9 +115,7 @@ int main()
 		shader->SetUniform1f("near", CAMERA_NEAR_CLIP_DISTANCE);
 		shader->SetUniform1f("far", CAMERA_FAR_CLIP_DISTANCE);
 		
-		ground.Draw(*shader, *camera);
-		glDisable(GL_CULL_FACE);
-		grass.Draw(*grassShader, *camera);
+		model.Draw(*shader, *camera);
 
 
 		glfwSwapBuffers(window);
