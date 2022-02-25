@@ -7,7 +7,7 @@ Camera::Camera(int _width, int _height, glm::vec3 _position)
 {}
 
 // updates and exports the camera matrix to the vertex shader
-void Camera::updateMatrix(float FOVdegree, float nearPlaneDistance, float farPlaneDistance)
+void Camera::updateMatrix()
 {
 	// initializes matrices since otherwise they will be the null matrix
 	glm::mat4 view(1.f);
@@ -19,13 +19,13 @@ void Camera::updateMatrix(float FOVdegree, float nearPlaneDistance, float farPla
 	// declares the view frustrum and adds perspective to the scene
 	projection = glm::perspective(
 		// FOV angle
-		glm::radians(FOVdegree),
+		glm::radians(fovAngle),
 		// aspect ratio
 		(float) width / height,
 		// near clip plane distance
-		nearPlaneDistance,
+		nearClipDistance,
 		// far clip plane distance
-		farPlaneDistance
+		farClipDistance
 	);
 
 	// Update the camera matrix
@@ -115,4 +115,9 @@ void Camera::Inputs(GLFWwindow* window)
 		// makes sure the next time the camera looks around it doesn't jump
 		isFirstClick = true;
 	}
+}
+
+void Camera::BindFrameBuffer()
+{
+	frameBuffer->Bind();
 }

@@ -1,10 +1,10 @@
 #pragma once
 
 #include <string>
-#include "../Shader/VAO/VertexArrayObject.h"
-#include "../Shader/EBO/ElementBufferObject.h"
-#include "../Camera/Camera.h"
-#include "../Texture/Texture.h"
+#include "VertexArrayObject.h"
+#include "ElementBufferObject.h"
+#include "Camera.h"
+#include "Texture.h"
 
 class Mesh
 {

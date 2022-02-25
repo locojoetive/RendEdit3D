@@ -1,7 +1,7 @@
 #pragma once
 
 #include <json/json.h>
-#include "../Mesh/Mesh.h"
+#include "Mesh.h"
 
 using json = nlohmann::json;
 using uchar = unsigned char;
