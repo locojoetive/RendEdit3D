@@ -3,15 +3,26 @@
 #include <glm/glm.hpp>
 #include "Shader.h"
 
+enum class LightType {
+	POINT,
+	DIRECTIONAL,
+	SPOT
+};
+
 class Light
 {
 private:
-	glm::vec3 lightPosition;
-	glm::vec4 lightColor;
+	LightType type;
+	glm::vec3 position;
 
 	Shader* shader;
+	glm::vec4 color;
 public:
 	Light();
 	~Light();
+
+	glm::vec3 getPosition();
+	glm::vec4 getColor();
+	void setColor(glm::vec4 _color);
 };
 

@@ -20,18 +20,17 @@ void Scene::UpdateScene()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
+	defaultShader->Activate();
+	defaultShader->SetUniform4f("lightColor", light.getColor());
+	defaultShader->SetUniform1f("near", camera->getNearClipDistance());
+	defaultShader->SetUniform1f("far", camera->getFarClipDistance());
 	for (Model m : models)
 	{
 		m.Draw(*defaultShader, *camera);
 	}
 
 	// updates and exports the camera matrix to the vertex shader
-	// camera->updateMatrix();
-	/*
-	defaultShader->Activate();
-	defaultShader->SetUniform1f("near", camera->getNearClipDistance());
-	defaultShader->SetUniform1f("far", camera->getFarClipDistance());
-	*/
+	camera->updateMatrix();
 }
 
 void Scene::LoadModel(std::string path)
@@ -39,6 +38,11 @@ void Scene::LoadModel(std::string path)
 	// comes from ImGUI with "\\"
 	// get_file_content(...) uses '/' 
 	path = std::regex_replace(path, std::regex("\\\\"), "/");
-	Model newModel(path.c_str());
-	models.push_back(newModel);
+	models.push_back(Model(path.c_str()));
+	selectedModel = models.end()-1;
+}
+
+bool Scene::isModelSelected()
+{
+	return models.size() > 0 && selectedModel != models.end();
 }

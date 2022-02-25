@@ -15,8 +15,13 @@ void Model::Draw(Shader &shader, Camera &camera)
 {
 	for (uint i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].Draw(shader, camera, matricesMeshes[i]);
+		meshes[i].Draw(shader, camera, matricesMeshes[i], this->translation);
 	}
+}
+
+void Model::MoveTo(float posX, float posY, float posZ)
+{
+	this->translation = glm::vec3(posX, posY, posZ);
 }
 
 void Model::loadMesh(uint indexMesh)
@@ -122,7 +127,6 @@ void Model::traverseNode(uint nextNode, glm::mat4 matrix)
 	}
 }
 
-
 std::vector<uchar> Model::getData()
 {
 	std::string bytesText;
@@ -181,7 +185,6 @@ std::vector<Texture> Model::getTextures()
 	return textures;
 }
 
-
 /*
 * This class supports loading 3d models of type *.gltf.
 * Since it is in JSON formal, the fields are read using a JSON parser.
@@ -234,7 +237,6 @@ std::vector<float> Model::getFloats(json accessor)
 	return floatVector;
 }
 
-
 std::vector<GLuint> Model::getIndices(json accessor)
 {
 	std::vector<GLuint> indices;
@@ -282,7 +284,6 @@ std::vector<GLuint> Model::getIndices(json accessor)
 
 	return indices;
 }
-
 
 std::vector<glm::vec2> Model::groupFloatsVec2(std::vector<float> floatVec)
 {

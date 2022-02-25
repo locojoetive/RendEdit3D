@@ -14,11 +14,13 @@ public:
 	Model(const char* file);
 
 	void Draw(Shader& shader, Camera& camera);
-
+	void MoveTo(float posX, float posY, float posZ);
 private:
 	const char* file;
 	std::vector<uchar> data;
 	json JSON;
+
+	glm::vec3 translation = glm::vec3(0.f);
 
 	std::vector<Mesh> meshes;
 	std::vector<glm::vec3> translationsMeshes;
@@ -33,7 +35,6 @@ private:
 	std::vector<Texture> getTextures();
 
 	void loadMesh(uint indexMesh);
-
 	void traverseNode(uint nextNode, glm::mat4 matrix = glm::mat4(1.f));
 
 	std::vector<float> getFloats(json accessor);

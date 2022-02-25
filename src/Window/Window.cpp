@@ -23,15 +23,6 @@ bool Window::shouldClose() { return glfwWindowShouldClose(windowObject); }
 
 void Window::Update()
 {
-
-	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	scene->UpdateScene();
-
-	RenderImGUI();
-	
-	/*
 	// Calculate frame time and FPS
 	currentTime = glfwGetTime();
 	timeDifference = currentTime - previousTime;
@@ -43,12 +34,16 @@ void Window::Update()
 		std::string newTitle = "3D-Rasterizer - (" + FPS + "FPS / " + ms + "ms";
 		glfwSetWindowTitle(windowObject, newTitle.c_str());
 		previousTime = currentTime;
-
 		// handles camera inputs
-		sceneCamera->Inputs(windowObject);
+		HandleInputs();
 	}
-	*/
-	// model.Draw(*defaultShader, *camera);
+	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	scene->UpdateScene();
+
+	RenderImGUI();
+	HandleImGUIInputs();
 
 	// Swap front with back buffer
 	glfwSwapBuffers(windowObject);
@@ -123,13 +118,49 @@ void Window::RenderImGUI()
 		scene->LoadModel(pathInputText);
 	}
 	// Slider that appears in the window
-	ImGui::SliderFloat("Size", &size, 0.5f, 2.0f);
+	ImGui::SliderFloat("PosX", &posX, -10.f, 10.f);
+	ImGui::SliderFloat("PosY", &posY, -10.f, 10.f);
+	ImGui::SliderFloat("PosZ", &posZ, -10.f, 10.f);
+
+	ImGui::SliderFloat("Camera Speed", &cameraSpeed, 0.f, 4.f);
 	// Fancy color editor that appears in the window
-	ImGui::ColorEdit4("Color", color);
+	ImGui::ColorEdit4("Light Color", lightColor);
 	// Ends the window
 	ImGui::End();
 
 	// Renders the ImGUI elements
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	
+	isKeyboardLockedByImGUI = ImGui::GetIO().WantCaptureKeyboard;
+	isMouseLockedByImGUI = ImGui::GetIO().WantCaptureMouse;
+}
+
+void Window::HandleImGUIInputs()
+{
+	if (scene->isModelSelected())
+	{
+		scene->selectedModel->MoveTo(posX, posY, posZ);
+	}
+	sceneCamera->speed = cameraSpeed;
+	scene->light.setColor(glm::vec4(lightColor[0], lightColor[1], lightColor[2], lightColor[3]));
+}
+
+void Window::HandleInputs()
+{
+	// stores coordinates of the cursor
+	double mouseX;
+	double mouseY;
+
+	// fetches the coordinates of the cursor
+	glfwGetCursorPos(windowObject, &mouseX, &mouseY);
+
+	if (!isKeyboardLockedByImGUI)
+	{
+		sceneCamera->KeyboardInputs(windowObject);
+	}
+	if (!isMouseLockedByImGUI)
+	{
+		sceneCamera->MouseInputs(windowObject, mouseX, mouseY);
+	}
 }

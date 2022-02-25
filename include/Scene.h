@@ -12,12 +12,15 @@ private:
 	Camera* camera;
 	Shader* defaultShader;
 	std::vector<Model> models;
-	std::vector<Light> lights;
 
 public:
+	Light light;
+
+	std::vector<Model>::iterator selectedModel;
 	Scene(Camera &_camera);
 	~Scene();
 	void UpdateScene();
 	void LoadModel(std::string path);
+	bool isModelSelected();
 };
 

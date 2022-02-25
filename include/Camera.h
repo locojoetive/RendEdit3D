@@ -48,7 +48,8 @@ public:
 	void updateMatrix();
 	// exports the camera matrix to a shader
 	void Matrix(Shader &shader, const char* uniform);
-	void Inputs(GLFWwindow* window);
+	void KeyboardInputs(GLFWwindow* window);
+	void MouseInputs(GLFWwindow* window, double mouseX, double mouseY);
 
 	void BindFrameBuffer();
 

@@ -20,10 +20,14 @@ private:
 	std::string name;
 
 	// test attributes
-	bool drawTriangle;
-	float size;
-	float color[4] = { 0.8f, 0.3f, 0.02f, 1.0f };
-	char pathInputText[128] = "C:\\_projects\\cpp\\3d-rasterizer\\Resources\\Models\\bunny\\scene.gltf";
+	bool isMouseLockedByImGUI;
+	bool isKeyboardLockedByImGUI;
+	float posX;
+	float posY;
+	float posZ;
+	float cameraSpeed = 1.f;
+	float lightColor[4] = { 0.8f, 0.3f, 0.02f, 1.0f };
+	char pathInputText[128] = "C:\\_projects\\cpp\\3d-rasterizer\\Resources\\Models\\crow\\scene.gltf";
 
 	Scene* scene;
 	Camera* sceneCamera;
@@ -33,6 +37,7 @@ private:
 	unsigned int counter = 0;
 	GLFWwindow* windowObject;
 
+	void HandleInputs();
 public:
 
 	Window(int _width, int _height, std::string _name);
@@ -44,5 +49,6 @@ public:
 	void InitGLFWwindow();
 	void InitImGUI();
 	void RenderImGUI();
+	void HandleImGUIInputs();
 };
 
