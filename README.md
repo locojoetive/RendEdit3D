@@ -3,28 +3,24 @@
 I created this project to gain experience with Dear ImGUI in combination with GLFW.
 Throughout its development this Readme will grow and evolve to capture all implemented features and all requirements to setup and build the project
 
-A lot of this project is inspired by [Victor Gordan](https://www.youtube.com/watch?v=45MIykWJ-C4&t=5140s).
+A lot of this project is inspired by [Victor Gordan](https://www.youtube.com/channel/UC8WizezjQVClpWfdKMwtcmw).
 
 ### 2. Features
 
-This project is supposed to have the following features:
+This project will have the following features:
 
-1. Load and display 3D models.
-2. Load and apply a given texture and specular map to the model
-4. Support user inputs to rotate around and zoom into the model
-5. Support user inputs to change the pivot of the camera's rotation
-2. Allow for different types of light sources
-
-Additional Features may be:
-
-1. Load multiple models with their respective textures
+1. Load and display 3D models
+2. Create multiple light sources
+3. Support directional-, point- and spot light
+4. Support user inputs to move around the scene
+5. Move, Rotate, and Scale the models
+6. Load and apply a given texture and specular map to the model
 
 ## 2. Requirements
 
 ### 2.1. Development Environment
 
 This project is a C++ project created with the following setup:
-
 
 **IDE:** Visual Studio 2022 Community
 
