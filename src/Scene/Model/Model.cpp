@@ -1,5 +1,5 @@
 #include "Model.h"
-#include <math.h>
+#include <cmath>
 
 Model::Model(const char* file)
 {
@@ -10,19 +10,24 @@ Model::Model(const char* file)
 	data = getData();
 
 	traverseNode(0);
+
+	// set model name as model folder name
+	std::string filePath = std::string(file);
+	filePath = filePath.substr(0, filePath.find_last_of('/'));
+	name = filePath.substr(filePath.find_last_of('/') + 1, filePath.size());
 }
 
 void Model::Draw(Shader &shader, Camera &camera)
 {
 	for (uint i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].Draw(shader, camera, matricesMeshes[i], translation, rotation, scale);
+		meshes[i].Draw(shader, camera, matricesMeshes[i], position, rotation, scale);
 	}
 }
 
 void Model::MoveTo(glm::vec3 _position)
 {
-	translation = _position;
+	position = _position;
 }
 
 void Model::RotateTo(glm::vec3 _rotation)
@@ -38,6 +43,34 @@ void Model::RotateTo(glm::vec3 _rotation)
 void Model::ScaleTo(glm::vec3 _scale)
 {
 	scale = _scale;
+}
+
+glm::vec3 Model::getPosition()
+{
+	return position;
+}
+
+glm::vec3 Model::getRotation()
+{
+	/*
+	* calculate euler angles from quaternion
+	* https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_conversion
+	*/
+	return glm::vec3(
+		glm::degrees(atan2f(2 * (rotation.w * rotation.x + rotation.y * rotation.z), (1 - 2 * (rotation.x * rotation.x + rotation.y * rotation.y)))),
+		glm::degrees(asinf(2 * (rotation.w * rotation.y - rotation.z * rotation.x))),
+		glm::degrees(atan2f(2 * (rotation.w * rotation.z + rotation.x * rotation.y), (1 - 2 * (rotation.y * rotation.y + rotation.z * rotation.z))))
+	);
+}
+
+glm::vec3 Model::getScale()
+{
+	return scale;
+}
+
+std::string Model::getName()
+{
+	return name;
 }
 
 void Model::loadMesh(uint indexMesh)

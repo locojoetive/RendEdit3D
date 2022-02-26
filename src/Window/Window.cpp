@@ -1,5 +1,34 @@
 #include "Window.h"
+#include <vector>
 
+
+/*
+* override ImGui Combo and ListBox to support std::vector without copying the values
+* https://eliasdaler.github.io/using-imgui-with-sfml-pt2/#combobox-listbox
+*/
+namespace ImGui
+{
+	static auto vector_getter = [](void* vec, int idx, const char** out_text)
+	{
+		auto& vector = *static_cast<std::vector<std::string>*>(vec);
+		if (idx < 0 || idx >= static_cast<int>(vector.size())) { return false; }
+		*out_text = vector.at(idx).c_str();
+		return true;
+	};
+
+	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values)
+	{
+		if (values.empty()) { return false; }
+		return Combo(label, currIndex, vector_getter, static_cast<void*>(&values), values.size());
+	}
+
+	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values)
+	{
+		if (values.empty()) { return false; }
+		return ListBox(label, currIndex, vector_getter, static_cast<void*>(&values), values.size());
+	}
+
+}
 
 Window::Window(int _width, int _height, std::string _name)
 	: width(_width), height(_height), name(_name)
@@ -111,28 +140,42 @@ void Window::RenderImGUI()
 	ImGui::NewFrame();
 
 	// ImGUI window creation
-	ImGui::Begin("Inspect Scene");
+	ImGui::Begin("Inspect Model");
+
+	std::vector<std::string> modelNames = scene->getModelNames();
+	if (ImGui::Combo("Selected Model " + selectedItemIndex, &selectedItemIndex, modelNames))
+	{
+		scene->selectModel(selectedItemIndex);
+		position = scene->selectedModel->getPosition();
+		rotation = scene->selectedModel->getRotation();
+		scale = scene->selectedModel->getScale();
+	}
+
 	ImGui::InputText("Path", pathInputText, IM_ARRAYSIZE(pathInputText));
 	if (ImGui::Button("Load Model"))
 	{
 		scene->LoadModel(pathInputText);
 	}
-	// Slider that appears in the window
-	ImGui::SliderFloat("PosX", &position.x, -10.f, 10.f);
-	ImGui::SliderFloat("PosY", &position.y, -10.f, 10.f);
-	ImGui::SliderFloat("PosZ", &position.z, -10.f, 10.f);
 
-	ImGui::SliderFloat("RotX", &rotation.x, 0.f, 360.f);
-	ImGui::SliderFloat("RotY", &rotation.y, 0.f, 360.f);
-	ImGui::SliderFloat("RotZ", &rotation.z, 0.f, 360.f);
+	if (modelNames.size() > 0)
+	{
+		ImGui::SliderFloat("PosX", &position.x, -10.f, 10.f);
+		ImGui::SliderFloat("PosY", &position.y, -10.f, 10.f);
+		ImGui::SliderFloat("PosZ", &position.z, -10.f, 10.f);
 
-	ImGui::SliderFloat("ScaleX", &scale.x, 0.1f, 1.f);
-	ImGui::SliderFloat("ScaleY", &scale.y, 0.1f, 1.f);
-	ImGui::SliderFloat("ScaleZ", &scale.z, 0.1f, 1.f);
+		ImGui::SliderFloat("RotX", &rotation.x, 0.f, 360.f);
+		ImGui::SliderFloat("RotY", &rotation.y, 0.f, 360.f);
+		ImGui::SliderFloat("RotZ", &rotation.z, 0.f, 360.f);
+
+		ImGui::SliderFloat("ScaleX", &scale.x, 0.1f, 1.f);
+		ImGui::SliderFloat("ScaleY", &scale.y, 0.1f, 1.f);
+		ImGui::SliderFloat("ScaleZ", &scale.z, 0.1f, 1.f);
+
+		ImGui::ColorEdit4("Light Color", lightColor);
+	}
 
 	ImGui::SliderFloat("Camera Speed", &cameraSpeed, 0.f, 4.f);
 	// Fancy color editor that appears in the window
-	ImGui::ColorEdit4("Light Color", lightColor);
 	// Ends the window
 	ImGui::End();
 

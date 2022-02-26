@@ -17,12 +17,19 @@ public:
 	void MoveTo(glm::vec3 _position);
 	void RotateTo(glm::vec3 _rotation);
 	void ScaleTo(glm::vec3 _scale);
+
+	glm::vec3 getPosition();
+	glm::vec3 getRotation();
+	glm::vec3 getScale();
+
+	std::string getName();
 private:
+	std::string name;
 	const char* file;
 	std::vector<uchar> data;
 	json JSON;
 
-	glm::vec3 translation = glm::vec3(1.f, 0.f, 0.f);
+	glm::vec3 position = glm::vec3(1.f, 0.f, 0.f);
 	glm::quat rotation = glm::vec3(0.f);
 	glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
 

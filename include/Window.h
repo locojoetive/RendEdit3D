@@ -27,7 +27,9 @@ private:
 	glm::vec3 scale = glm::vec3(.1f, .1f, .1f);
 	float cameraSpeed = 1.f;
 	float lightColor[4] = { 1.f, 1.f, 1.f, 1.f };
+	// TODO: replace with relative path
 	char pathInputText[128] = "C:\\_projects\\cpp\\3d-rasterizer\\Resources\\Models\\crow\\scene.gltf";
+	int selectedItemIndex;
 
 	Scene* scene;
 	Camera* sceneCamera;
@@ -50,5 +52,6 @@ public:
 	void InitImGUI();
 	void RenderImGUI();
 	void HandleImGUIInputs();
+	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values);
 };
 

@@ -40,9 +40,20 @@ void Scene::LoadModel(std::string path)
 	path = std::regex_replace(path, std::regex("\\\\"), "/");
 	models.push_back(Model(path.c_str()));
 	selectedModel = models.end()-1;
+	modelNames.push_back(selectedModel->getName());
+}
+
+void Scene::selectModel(unsigned int index)
+{
+	selectedModel = models.begin() + index;
 }
 
 bool Scene::isModelSelected()
 {
 	return models.size() > 0 && selectedModel != models.end();
+}
+
+std::vector<std::string> Scene::getModelNames()
+{
+	return modelNames;
 }

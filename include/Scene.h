@@ -12,6 +12,7 @@ private:
 	Camera* camera;
 	Shader* defaultShader;
 	std::vector<Model> models;
+	std::vector <std::string> modelNames;
 
 public:
 	Light light;
@@ -22,5 +23,7 @@ public:
 	void UpdateScene();
 	void LoadModel(std::string path);
 	bool isModelSelected();
+	void selectModel(unsigned int index);
+	std::vector<std::string> getModelNames();
 };
 
