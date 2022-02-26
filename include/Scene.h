@@ -13,7 +13,7 @@ private:
 	Shader* defaultShader;
 	std::vector<Model> models;
 	std::vector <std::string> modelNames;
-
+	Model* arrow;
 public:
 	Light light;
 

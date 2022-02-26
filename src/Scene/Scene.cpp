@@ -5,6 +5,7 @@ Scene::Scene(Camera &_camera)
 {
 	camera = &_camera;
 	defaultShader = new Shader("Resources/Shaders/default.vert", "Resources/Shaders/default.frag");
+	arrow = new Model("Resources/Models/_arrow/scene.gltf");
 }
 
 
@@ -28,6 +29,14 @@ void Scene::UpdateScene()
 	{
 		m.Draw(*defaultShader, *camera);
 	}
+
+	if (isModelSelected())
+	{
+		arrow->MoveTo(selectedModel->getPosition());
+		arrow->RotateTo(selectedModel->getRotation());
+		arrow->ScaleTo(selectedModel->getScale());
+	}
+	arrow->Draw(*defaultShader, *camera);
 
 	// updates and exports the camera matrix to the vertex shader
 	camera->updateMatrix();
