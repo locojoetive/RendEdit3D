@@ -14,13 +14,17 @@ public:
 	Model(const char* file);
 
 	void Draw(Shader& shader, Camera& camera);
-	void MoveTo(float posX, float posY, float posZ);
+	void MoveTo(glm::vec3 _position);
+	void RotateTo(glm::vec3 _rotation);
+	void ScaleTo(glm::vec3 _scale);
 private:
 	const char* file;
 	std::vector<uchar> data;
 	json JSON;
 
-	glm::vec3 translation = glm::vec3(0.f);
+	glm::vec3 translation = glm::vec3(1.f, 0.f, 0.f);
+	glm::quat rotation = glm::vec3(0.f);
+	glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
 
 	std::vector<Mesh> meshes;
 	std::vector<glm::vec3> translationsMeshes;

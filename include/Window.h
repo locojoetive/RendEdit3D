@@ -18,15 +18,15 @@ private:
 	int width;
 	int height;
 	std::string name;
-
-	// test attributes
 	bool isMouseLockedByImGUI;
 	bool isKeyboardLockedByImGUI;
-	float posX;
-	float posY;
-	float posZ;
+
+	// test attributes
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 scale = glm::vec3(.1f, .1f, .1f);
 	float cameraSpeed = 1.f;
-	float lightColor[4] = { 0.8f, 0.3f, 0.02f, 1.0f };
+	float lightColor[4] = { 1.f, 1.f, 1.f, 1.f };
 	char pathInputText[128] = "C:\\_projects\\cpp\\3d-rasterizer\\Resources\\Models\\crow\\scene.gltf";
 
 	Scene* scene;

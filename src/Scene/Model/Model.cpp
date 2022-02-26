@@ -1,4 +1,5 @@
 #include "Model.h"
+#include <math.h>
 
 Model::Model(const char* file)
 {
@@ -15,13 +16,28 @@ void Model::Draw(Shader &shader, Camera &camera)
 {
 	for (uint i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].Draw(shader, camera, matricesMeshes[i], this->translation);
+		meshes[i].Draw(shader, camera, matricesMeshes[i], translation, rotation, scale);
 	}
 }
 
-void Model::MoveTo(float posX, float posY, float posZ)
+void Model::MoveTo(glm::vec3 _position)
 {
-	this->translation = glm::vec3(posX, posY, posZ);
+	translation = _position;
+}
+
+void Model::RotateTo(glm::vec3 _rotation)
+{
+	// glm::quat orientation(glm::vec3(ofDegToRad(rotX), ofDegToRad(rotY), ofDegToRad(rotZ)));
+	rotation = glm::quat(glm::vec3(
+		glm::radians(_rotation.x),
+		glm::radians(_rotation.y),
+		glm::radians(_rotation.z)
+	));
+}
+
+void Model::ScaleTo(glm::vec3 _scale)
+{
+	scale = _scale;
 }
 
 void Model::loadMesh(uint indexMesh)

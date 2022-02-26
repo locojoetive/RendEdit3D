@@ -118,9 +118,17 @@ void Window::RenderImGUI()
 		scene->LoadModel(pathInputText);
 	}
 	// Slider that appears in the window
-	ImGui::SliderFloat("PosX", &posX, -10.f, 10.f);
-	ImGui::SliderFloat("PosY", &posY, -10.f, 10.f);
-	ImGui::SliderFloat("PosZ", &posZ, -10.f, 10.f);
+	ImGui::SliderFloat("PosX", &position.x, -10.f, 10.f);
+	ImGui::SliderFloat("PosY", &position.y, -10.f, 10.f);
+	ImGui::SliderFloat("PosZ", &position.z, -10.f, 10.f);
+
+	ImGui::SliderFloat("RotX", &rotation.x, 0.f, 360.f);
+	ImGui::SliderFloat("RotY", &rotation.y, 0.f, 360.f);
+	ImGui::SliderFloat("RotZ", &rotation.z, 0.f, 360.f);
+
+	ImGui::SliderFloat("ScaleX", &scale.x, 0.1f, 1.f);
+	ImGui::SliderFloat("ScaleY", &scale.y, 0.1f, 1.f);
+	ImGui::SliderFloat("ScaleZ", &scale.z, 0.1f, 1.f);
 
 	ImGui::SliderFloat("Camera Speed", &cameraSpeed, 0.f, 4.f);
 	// Fancy color editor that appears in the window
@@ -140,7 +148,9 @@ void Window::HandleImGUIInputs()
 {
 	if (scene->isModelSelected())
 	{
-		scene->selectedModel->MoveTo(posX, posY, posZ);
+		scene->selectedModel->MoveTo(position);
+		scene->selectedModel->RotateTo(rotation);
+		scene->selectedModel->ScaleTo(scale);
 	}
 	sceneCamera->speed = cameraSpeed;
 	scene->light.setColor(glm::vec4(lightColor[0], lightColor[1], lightColor[2], lightColor[3]));
