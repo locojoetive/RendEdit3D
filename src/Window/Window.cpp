@@ -159,17 +159,26 @@ void Window::RenderImGUI()
 
 	if (modelNames.size() > 0)
 	{
-		ImGui::SliderFloat("PosX", &position.x, -10.f, 10.f);
-		ImGui::SliderFloat("PosY", &position.y, -10.f, 10.f);
-		ImGui::SliderFloat("PosZ", &position.z, -10.f, 10.f);
+		if (ImGui::CollapsingHeader("Position"))
+		{
+			ImGui::SliderFloat("PosX", &position.x, -100.f, 100.f);
+			ImGui::SliderFloat("PosY", &position.y, -100.f, 100.f);
+			ImGui::SliderFloat("PosZ", &position.z, -100.f, 100.f);
+		}
 
-		ImGui::SliderFloat("RotX", &rotation.x, 0.f, 360.f);
-		ImGui::SliderFloat("RotY", &rotation.y, 0.f, 360.f);
-		ImGui::SliderFloat("RotZ", &rotation.z, 0.f, 360.f);
+		if (ImGui::CollapsingHeader("Rotation"))
+		{
+			ImGui::SliderFloat("RotX", &rotation.x, 0.f, 360.f);
+			ImGui::SliderFloat("RotY", &rotation.y, 0.f, 360.f);
+			ImGui::SliderFloat("RotZ", &rotation.z, 0.f, 360.f);
+		}
 
-		ImGui::SliderFloat("ScaleX", &scale.x, 0.1f, 1.f);
-		ImGui::SliderFloat("ScaleY", &scale.y, 0.1f, 1.f);
-		ImGui::SliderFloat("ScaleZ", &scale.z, 0.1f, 1.f);
+		if (ImGui::CollapsingHeader("Scale"))
+		{
+			ImGui::SliderFloat("ScaleX", &scale.x, 0.001f, 1.f);
+			ImGui::SliderFloat("ScaleY", &scale.y, 0.001f, 1.f);
+			ImGui::SliderFloat("ScaleZ", &scale.z, 0.001f, 1.f);
+		}
 
 		ImGui::ColorEdit4("Light Color", lightColor);
 	}
