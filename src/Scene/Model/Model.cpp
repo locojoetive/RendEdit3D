@@ -25,12 +25,12 @@ void Model::Draw(Shader &shader, Camera &camera)
 	}
 }
 
-void Model::MoveTo(glm::vec3 _position)
+void Model::setPosition(glm::vec3 _position)
 {
 	position = _position;
 }
 
-void Model::RotateTo(glm::vec3 _rotation)
+void Model::setRotation(glm::vec3 _rotation)
 {
 	// glm::quat orientation(glm::vec3(ofDegToRad(rotX), ofDegToRad(rotY), ofDegToRad(rotZ)));
 	rotation = glm::quat(glm::vec3(
@@ -40,7 +40,7 @@ void Model::RotateTo(glm::vec3 _rotation)
 	));
 }
 
-void Model::ScaleTo(glm::vec3 _scale)
+void Model::setScale(glm::vec3 _scale)
 {
 	scale = _scale;
 }

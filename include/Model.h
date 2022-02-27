@@ -14,9 +14,9 @@ public:
 	Model(const char* file);
 
 	void Draw(Shader& shader, Camera& camera);
-	void MoveTo(glm::vec3 _position);
-	void RotateTo(glm::vec3 _rotation);
-	void ScaleTo(glm::vec3 _scale);
+	void setPosition(glm::vec3 _position);
+	void setRotation(glm::vec3 _rotation);
+	void setScale(glm::vec3 _scale);
 
 	glm::vec3 getPosition();
 	glm::vec3 getRotation();

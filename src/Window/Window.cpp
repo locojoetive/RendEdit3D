@@ -191,9 +191,9 @@ void Window::HandleImGUIInputs()
 {
 	if (scene->isModelSelected())
 	{
-		scene->selectedModel->MoveTo(position);
-		scene->selectedModel->RotateTo(rotation);
-		scene->selectedModel->ScaleTo(scale);
+		scene->selectedModel->setPosition(position);
+		scene->selectedModel->setRotation(rotation);
+		scene->selectedModel->setScale(scale);
 	}
 	sceneCamera->speed = cameraSpeed;
 	scene->light.setColor(glm::vec4(lightColor[0], lightColor[1], lightColor[2], lightColor[3]));

@@ -32,9 +32,9 @@ void Scene::UpdateScene()
 
 	if (isModelSelected())
 	{
-		arrow->MoveTo(selectedModel->getPosition());
-		arrow->RotateTo(selectedModel->getRotation());
-		arrow->ScaleTo(selectedModel->getScale());
+		arrow->setPosition(selectedModel->getPosition());
+		arrow->setRotation(selectedModel->getRotation());
+		arrow->setScale(selectedModel->getScale());
 	}
 	arrow->Draw(*defaultShader, *camera);
 
