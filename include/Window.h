@@ -28,7 +28,7 @@ private:
 	float cameraSpeed = 1.f;
 	float lightColor[4] = { 1.f, 1.f, 1.f, 1.f };
 	// TODO: replace with relative path
-	char pathInputText[128] = "Resources\\Models\\matilda\\scene.gltf";
+	char pathInputText[128] = "Resources\\Models\\crow\\scene.gltf";
 	int selectedItemIndex;
 
 	Scene* scene;
