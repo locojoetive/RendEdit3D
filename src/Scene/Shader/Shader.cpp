@@ -101,6 +101,11 @@ void Shader::SetUniform4f(std::string key, glm::vec4 value)
 	glUniform4f(glGetUniformLocation(ID, key.c_str()), value.x, value.y, value.z, value.w);
 }
 
+void Shader::SetUniformMatrix4f(std::string key, glm::mat4 value)
+{
+	glUniformMatrix4fv(glGetUniformLocation(ID, key.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+}
+
 
 void Shader::compileErrors(unsigned int shader, const char* type)
 {

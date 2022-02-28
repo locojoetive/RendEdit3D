@@ -111,11 +111,9 @@ Texture::~Texture() {}
 
 void Texture::texUnit(Shader &shader, const char* uniform, GLuint unit)
 {
-	// Gets the uniform's location
-	GLuint texUni = glGetUniformLocation(shader.ID, uniform);
 	// Activates Shader to change the value of a uniform
 	shader.Activate();
-	glUniform1i(texUni, unit);
+	shader.SetUniform1i(uniform, unit);
 }
 
 void Texture::Bind()

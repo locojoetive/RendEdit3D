@@ -35,7 +35,7 @@ void Camera::updateMatrix()
 void Camera::Matrix(Shader& shader, const char* uniform)
 {
 	// exports the camera matrix to a shader
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
+	shader.SetUniformMatrix4f(uniform, cameraMatrix);
 }
 // handles camera inputs
 void Camera::KeyboardInputs(GLFWwindow* window)

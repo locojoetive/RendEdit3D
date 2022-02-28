@@ -52,7 +52,7 @@ void Mesh::Draw(
 		textures[i].texUnit(shader, (type + num).c_str(), i);
 		textures[i].Bind();
 	}
-	glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.position.x, camera.position.y, camera.position.z);
+	shader.SetUniform3f("cameraPos", camera.position);
 	camera.Matrix(shader, "camMatrix");
 
 	glm::mat4 translationMatrix = glm::mat4(1.f);
