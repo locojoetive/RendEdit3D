@@ -51,7 +51,5 @@ public:
 	void InitGLFWwindow();
 	void InitImGUI();
 	void RenderImGUI();
-	void HandleImGUIInputs();
-	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values);
 };
 

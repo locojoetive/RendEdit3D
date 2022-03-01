@@ -163,7 +163,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Window\Panel\Panel.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Light\Light.cpp" />
     <ClCompile Include="src\Scene\Camera\FrameBuffer\FrameBuffer.cpp" />
@@ -211,7 +210,6 @@
     <ClInclude Include="include\SimpleShapes.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Window.h" />
-    <ClInclude Include="src\Window\Panel\Panel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.vert" />

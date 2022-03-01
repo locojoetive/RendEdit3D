@@ -72,7 +72,6 @@ void Window::Update()
 	scene->UpdateScene();
 
 	RenderImGUI();
-	HandleImGUIInputs();
 
 	// Swap front with back buffer
 	glfwSwapBuffers(windowObject);
@@ -194,7 +193,6 @@ void Window::RenderImGUI()
 			}
 		}
 
-		// Fancy color editor that appears in the window
 		// Ends the window
 		ImGui::End();
 	}
@@ -228,10 +226,6 @@ void Window::RenderImGUI()
 	
 	isKeyboardLockedByImGUI = ImGui::GetIO().WantCaptureKeyboard;
 	isMouseLockedByImGUI = ImGui::GetIO().WantCaptureMouse;
-}
-
-void Window::HandleImGUIInputs()
-{
 }
 
 void Window::HandleInputs()
