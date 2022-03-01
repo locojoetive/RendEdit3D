@@ -15,7 +15,7 @@ private:
 	LightType type;
 	glm::vec3 position;
 
-	Shader* shader;
+	Shader* shader = nullptr;
 	glm::vec4 color;
 public:
 	Light();

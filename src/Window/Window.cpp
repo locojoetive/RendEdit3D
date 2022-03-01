@@ -19,13 +19,13 @@ namespace ImGui
 	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values)
 	{
 		if (values.empty()) { return false; }
-		return Combo(label, currIndex, vector_getter, static_cast<void*>(&values), values.size());
+		return Combo(label, currIndex, vector_getter, static_cast<void*>(&values), static_cast<int>(values.size()));
 	}
 
 	bool ListBox(const char* label, int* currIndex, std::vector<std::string>& values)
 	{
 		if (values.empty()) { return false; }
-		return ListBox(label, currIndex, vector_getter, static_cast<void*>(&values), values.size());
+		return ListBox(label, currIndex, vector_getter, static_cast<void*>(&values), static_cast<int>(values.size()));
 	}
 
 }
@@ -139,54 +139,88 @@ void Window::RenderImGUI()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	// ImGUI window creation
-	ImGui::Begin("Inspect Model");
-
-	std::vector<std::string> modelNames = scene->getModelNames();
-	if (ImGui::Combo("Selected Model " + selectedItemIndex, &selectedItemIndex, modelNames))
+	// Model View
 	{
-		scene->selectModel(selectedItemIndex);
-		position = scene->selectedModel->getPosition();
-		rotation = scene->selectedModel->getRotation();
-		scale = scene->selectedModel->getScale();
+		ImGui::Begin("Inspect Model");
+
+		ImGui::InputText("Path", pathInputText, IM_ARRAYSIZE(pathInputText));
+		if (ImGui::Button("Load Model"))
+		{
+			scene->LoadModel(pathInputText);
+		}
+
+		ImGui::Separator();
+
+		std::vector<std::string> modelNames = scene->getModelNames();
+		// reset transform values in GUI when another model is selected
+		if (ImGui::Combo("Selected Model " + selectedItemIndex, &selectedItemIndex, modelNames))
+		{
+			scene->selectModel(selectedItemIndex);
+			glm::vec3 _position = scene->selectedModel->getPosition();
+			position[0] = _position.x;
+			position[1] = _position.y;
+			position[2] = _position.z;
+
+			glm::vec3 _rotation = scene->selectedModel->getRotation();
+			rotation[0] = _rotation.x;
+			rotation[1] = _rotation.y;
+			rotation[2] = _rotation.z;
+
+			glm::vec3 _scale = scene->selectedModel->getScale();
+			scale[0] = _scale.x;
+			scale[1] = _scale.y;
+			scale[2] = _scale.z;
+		}
+
+		if (modelNames.size() > 0)
+		{
+			if (ImGui::Button("Delete Model"))
+			{
+				scene->DeleteSelectedModel();
+			}
+			else
+			{
+				ImGui::SliderFloat3("Position XYZ", &position[0], -100.f, 100.f);
+				scene->selectedModel->setPosition(position);
+				scene->arrow->setPosition(position);
+
+				ImGui::SliderFloat3("Rotation XYZ", &rotation[0], 0.f, 360.f);
+				scene->selectedModel->setRotation(rotation);
+				scene->arrow->setRotation(rotation);
+
+				ImGui::SliderFloat3("Scale XYZ", &scale[0], 0.001f, 1.f);
+				scene->selectedModel->setScale(scale);
+				scene->arrow->setScale(scale);
+			}
+		}
+
+		// Fancy color editor that appears in the window
+		// Ends the window
+		ImGui::End();
 	}
 
-	ImGui::InputText("Path", pathInputText, IM_ARRAYSIZE(pathInputText));
-	if (ImGui::Button("Load Model"))
+	// Camera View
 	{
-		scene->LoadModel(pathInputText);
+		// ImGUI window creation
+		ImGui::Begin("Camera");
+		ImGui::SliderFloat("Camera Speed", &sceneCamera->speed, 0.f, 4.f);
+
+		ImGui::SliderFloat("Near Clip Plane", &sceneCamera->nearClipDistance, 0.001f, 1000.f);
+		ImGui::SliderFloat("Near Clip Plane", &sceneCamera->farClipDistance, 0.001f, 1000.f);
+		ImGui::SliderFloat("Field Of View Angle", &sceneCamera->fovAngle, -179.f, 179.f);
+		// Ends the window
+		ImGui::End();
 	}
 
-	if (modelNames.size() > 0)
+	// Lights View
 	{
-		if (ImGui::CollapsingHeader("Position"))
-		{
-			ImGui::SliderFloat("PosX", &position.x, -100.f, 100.f);
-			ImGui::SliderFloat("PosY", &position.y, -100.f, 100.f);
-			ImGui::SliderFloat("PosZ", &position.z, -100.f, 100.f);
-		}
-
-		if (ImGui::CollapsingHeader("Rotation"))
-		{
-			ImGui::SliderFloat("RotX", &rotation.x, 0.f, 360.f);
-			ImGui::SliderFloat("RotY", &rotation.y, 0.f, 360.f);
-			ImGui::SliderFloat("RotZ", &rotation.z, 0.f, 360.f);
-		}
-
-		if (ImGui::CollapsingHeader("Scale"))
-		{
-			ImGui::SliderFloat("ScaleX", &scale.x, 0.001f, 1.f);
-			ImGui::SliderFloat("ScaleY", &scale.y, 0.001f, 1.f);
-			ImGui::SliderFloat("ScaleZ", &scale.z, 0.001f, 1.f);
-		}
-
+		// ImGUI window creation
+		ImGui::Begin("Lights");
 		ImGui::ColorEdit4("Light Color", lightColor);
-	}
+		scene->light.setColor(glm::vec4(lightColor[0], lightColor[1], lightColor[2], lightColor[3]));
+		ImGui::End();
 
-	ImGui::SliderFloat("Camera Speed", &cameraSpeed, 0.f, 4.f);
-	// Fancy color editor that appears in the window
-	// Ends the window
-	ImGui::End();
+	}
 
 	// Renders the ImGUI elements
 	ImGui::Render();
@@ -198,14 +232,6 @@ void Window::RenderImGUI()
 
 void Window::HandleImGUIInputs()
 {
-	if (scene->isModelSelected())
-	{
-		scene->selectedModel->setPosition(position);
-		scene->selectedModel->setRotation(rotation);
-		scene->selectedModel->setScale(scale);
-	}
-	sceneCamera->speed = cameraSpeed;
-	scene->light.setColor(glm::vec4(lightColor[0], lightColor[1], lightColor[2], lightColor[3]));
 }
 
 void Window::HandleInputs()

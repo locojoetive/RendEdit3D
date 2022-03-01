@@ -14,10 +14,10 @@
 class Camera
 {
 private:
+public:
 	float fovAngle = 45.f;
 	float nearClipDistance = 0.1f;
 	float farClipDistance = 1000.f;
-public:
 	FrameBuffer* frameBuffer;
 	// camera position and axis directions
 	glm::vec3 position;
@@ -39,10 +39,6 @@ public:
 	float sensitivity = 100.f;
 
 	Camera(int width, int height, glm::vec3 position);
-
-	float getFOVAngle() { return fovAngle; }
-	float getNearClipDistance() { return nearClipDistance; }
-	float getFarClipDistance() { return farClipDistance; }
 
 	// updates and exports the camera matrix to the vertex shader
 	void updateMatrix();

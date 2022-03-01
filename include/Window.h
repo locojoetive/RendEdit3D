@@ -22,9 +22,9 @@ private:
 	bool isKeyboardLockedByImGUI;
 
 	// test attributes
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale = glm::vec3(.1f, .1f, .1f);
+	float position[3] = { 0.f, 0.f, 0.f };
+	float rotation[3] = { 0.f, 0.f, 0.f };
+	float scale[3] = { 1.f, 1.f, 1.f };
 	float cameraSpeed = 1.f;
 	float lightColor[4] = { 1.f, 1.f, 1.f, 1.f };
 	// TODO: replace with relative path

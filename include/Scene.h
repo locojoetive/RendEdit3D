@@ -13,8 +13,8 @@ private:
 	Shader* defaultShader;
 	std::vector<Model> models;
 	std::vector <std::string> modelNames;
-	Model* arrow;
 public:
+	Model* arrow;
 	Light light;
 
 	std::vector<Model>::iterator selectedModel;
@@ -22,6 +22,7 @@ public:
 	~Scene();
 	void UpdateScene();
 	void LoadModel(std::string path);
+	void DeleteSelectedModel();
 	bool isModelSelected();
 	void selectModel(unsigned int index);
 	std::vector<std::string> getModelNames();

@@ -25,24 +25,24 @@ void Model::Draw(Shader &shader, Camera &camera)
 	}
 }
 
-void Model::setPosition(glm::vec3 _position)
+void Model::setPosition(float _position[3])
 {
-	position = _position;
+	position = glm::vec3(_position[0], _position[1], _position[2]);
 }
 
-void Model::setRotation(glm::vec3 _rotation)
+void Model::setRotation(float _rotation[3])
 {
 	// glm::quat orientation(glm::vec3(ofDegToRad(rotX), ofDegToRad(rotY), ofDegToRad(rotZ)));
 	rotation = glm::quat(glm::vec3(
-		glm::radians(_rotation.x),
-		glm::radians(_rotation.y),
-		glm::radians(_rotation.z)
+		glm::radians(_rotation[0]),
+		glm::radians(_rotation[1]),
+		glm::radians(_rotation[2])
 	));
 }
 
-void Model::setScale(glm::vec3 _scale)
+void Model::setScale(float _scale[3])
 {
-	scale = _scale;
+	scale = glm::vec3(_scale[0], _scale[1], _scale[2]);
 }
 
 glm::vec3 Model::getPosition()

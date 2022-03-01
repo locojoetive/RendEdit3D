@@ -23,18 +23,11 @@ void Scene::UpdateScene()
 
 	defaultShader->Activate();
 	defaultShader->SetUniform4f("lightColor", light.getColor());
-	defaultShader->SetUniform1f("near", camera->getNearClipDistance());
-	defaultShader->SetUniform1f("far", camera->getFarClipDistance());
+	defaultShader->SetUniform1f("near", camera->nearClipDistance);
+	defaultShader->SetUniform1f("far", camera->farClipDistance);
 	for (Model m : models)
 	{
 		m.Draw(*defaultShader, *camera);
-	}
-
-	if (isModelSelected())
-	{
-		arrow->setPosition(selectedModel->getPosition());
-		arrow->setRotation(selectedModel->getRotation());
-		arrow->setScale(selectedModel->getScale());
 	}
 	arrow->Draw(*defaultShader, *camera);
 
@@ -50,6 +43,21 @@ void Scene::LoadModel(std::string path)
 	models.push_back(Model(path.c_str()));
 	selectedModel = models.end()-1;
 	modelNames.push_back(selectedModel->getName());
+}
+
+void Scene::DeleteSelectedModel()
+{
+	int index = selectedModel - models.begin();
+	models.erase(selectedModel);
+	modelNames.erase(modelNames.begin() + index);
+	if (models.size() > 0)
+	{
+		selectedModel = models.end() - 1;
+	}
+	else
+	{
+		selectedModel = models.end();
+	}
 }
 
 void Scene::selectModel(unsigned int index)
