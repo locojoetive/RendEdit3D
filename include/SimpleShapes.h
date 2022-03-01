@@ -1,7 +1,9 @@
-#pragma once
+#ifndef SIMPLE_SHAPES_H
+#define SIMPLE_SHAPES_H
 
-#include <glad/glad.h>
 #include <math.h>
+
+#include "Vertex.h"
 
 typedef glm::vec3 Vec3;
 typedef glm::vec2 Vec2;
@@ -187,7 +189,7 @@ Vertex rawLightVertices[] =
 	Vertex{Vec3(-0.1f, -0.1f, -0.1f)}
 };
 
-GLuint rawLightIndices[]
+GLuint rawLightIndices[] =
 {
 	// right surface
 	0, 2, 1,
@@ -235,3 +237,5 @@ float rectangleVertices[] =
 	 1.f, -1.f, 1.f, 0.f,
 	-1.f,  1.f, 0.f, 1.f
 };
+
+#endif // SIMPLE_SHAPES_H

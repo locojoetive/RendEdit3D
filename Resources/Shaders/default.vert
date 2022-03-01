@@ -24,15 +24,12 @@ out vec2 texCoord;
 // world to screen matrix
 uniform mat4 camMatrix;
 // model to world matrix
-uniform mat4 translation;
-uniform mat4 rotation;
-uniform mat4 scale;
 uniform mat4 model;
 
 void main()
 {
-	currentPos = vec3(model * translation * rotation * scale * vec4(aPos, 1.0f));
-	Normal = aNormal;
+	currentPos = vec3(model * vec4(aPos, 1.0f));
+	Normal = vec3(model * vec4(aNormal,0.f));
 	color = aColor;
 	/* MAGIC NUMBER
 	 *  rotate the texture coordinates by 90 degrees

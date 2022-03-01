@@ -1,4 +1,5 @@
 #include "Model.h"
+#include <cmath>
 
 Model::Model(const char* file)
 {
@@ -9,14 +10,67 @@ Model::Model(const char* file)
 	data = getData();
 
 	traverseNode(0);
+
+	// set model name as model folder name
+	std::string filePath = std::string(file);
+	filePath = filePath.substr(0, filePath.find_last_of('/'));
+	name = filePath.substr(filePath.find_last_of('/') + 1, filePath.size());
 }
 
 void Model::Draw(Shader &shader, Camera &camera)
 {
 	for (uint i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].Draw(shader, camera, matricesMeshes[i]);
+		meshes[i].Draw(shader, camera, matricesMeshes[i], position, rotation, scale);
 	}
+}
+
+void Model::setPosition(float _position[3])
+{
+	position = glm::vec3(_position[0], _position[1], _position[2]);
+}
+
+void Model::setRotation(float _rotation[3])
+{
+	// glm::quat orientation(glm::vec3(ofDegToRad(rotX), ofDegToRad(rotY), ofDegToRad(rotZ)));
+	rotation = glm::quat(glm::vec3(
+		glm::radians(_rotation[0]),
+		glm::radians(_rotation[1]),
+		glm::radians(_rotation[2])
+	));
+}
+
+void Model::setScale(float _scale[3])
+{
+	scale = glm::vec3(_scale[0], _scale[1], _scale[2]);
+}
+
+glm::vec3 Model::getPosition()
+{
+	return position;
+}
+
+glm::vec3 Model::getRotation()
+{
+	/*
+	* calculate euler angles from quaternion
+	* https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_Euler_angles_conversion
+	*/
+	return glm::vec3(
+		glm::degrees(atan2f(2 * (rotation.w * rotation.x + rotation.y * rotation.z), (1 - 2 * (rotation.x * rotation.x + rotation.y * rotation.y)))),
+		glm::degrees(asinf(2 * (rotation.w * rotation.y - rotation.z * rotation.x))),
+		glm::degrees(atan2f(2 * (rotation.w * rotation.z + rotation.x * rotation.y), (1 - 2 * (rotation.y * rotation.y + rotation.z * rotation.z))))
+	);
+}
+
+glm::vec3 Model::getScale()
+{
+	return scale;
+}
+
+std::string Model::getName()
+{
+	return name;
 }
 
 void Model::loadMesh(uint indexMesh)
@@ -122,7 +176,6 @@ void Model::traverseNode(uint nextNode, glm::mat4 matrix)
 	}
 }
 
-
 std::vector<uchar> Model::getData()
 {
 	std::string bytesText;
@@ -181,7 +234,6 @@ std::vector<Texture> Model::getTextures()
 	return textures;
 }
 
-
 /*
 * This class supports loading 3d models of type *.gltf.
 * Since it is in JSON formal, the fields are read using a JSON parser.
@@ -234,7 +286,6 @@ std::vector<float> Model::getFloats(json accessor)
 	return floatVector;
 }
 
-
 std::vector<GLuint> Model::getIndices(json accessor)
 {
 	std::vector<GLuint> indices;
@@ -282,7 +333,6 @@ std::vector<GLuint> Model::getIndices(json accessor)
 
 	return indices;
 }
-
 
 std::vector<glm::vec2> Model::groupFloatsVec2(std::vector<float> floatVec)
 {

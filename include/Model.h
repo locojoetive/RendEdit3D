@@ -1,7 +1,7 @@
 #pragma once
 
 #include <json/json.h>
-#include "../Mesh/Mesh.h"
+#include "Mesh.h"
 
 using json = nlohmann::json;
 using uchar = unsigned char;
@@ -14,11 +14,24 @@ public:
 	Model(const char* file);
 
 	void Draw(Shader& shader, Camera& camera);
+	void setPosition(float _position[3]);
+	void setRotation(float _rotation[3]);
+	void setScale(float _scale[3]);
 
+	glm::vec3 getPosition();
+	glm::vec3 getRotation();
+	glm::vec3 getScale();
+
+	std::string getName();
 private:
+	std::string name;
 	const char* file;
 	std::vector<uchar> data;
 	json JSON;
+
+	glm::vec3 position = glm::vec3(1.f, 0.f, 0.f);
+	glm::quat rotation = glm::vec3(0.f);
+	glm::vec3 scale = glm::vec3(1.f, 1.f, 1.f);
 
 	std::vector<Mesh> meshes;
 	std::vector<glm::vec3> translationsMeshes;
@@ -33,7 +46,6 @@ private:
 	std::vector<Texture> getTextures();
 
 	void loadMesh(uint indexMesh);
-
 	void traverseNode(uint nextNode, glm::mat4 matrix = glm::mat4(1.f));
 
 	std::vector<float> getFloats(json accessor);

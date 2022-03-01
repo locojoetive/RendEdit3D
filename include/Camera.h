@@ -8,11 +8,17 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include "../Shader/Shader.h"
+#include "FrameBuffer.h"
+#include "Shader.h"
 
 class Camera
 {
+private:
 public:
+	float fovAngle = 45.f;
+	float nearClipDistance = 0.1f;
+	float farClipDistance = 1000.f;
+	FrameBuffer* frameBuffer;
 	// camera position and axis directions
 	glm::vec3 position;
 	glm::vec3 forward{ 0.f, 0.f, -1.f };
@@ -35,9 +41,13 @@ public:
 	Camera(int width, int height, glm::vec3 position);
 
 	// updates and exports the camera matrix to the vertex shader
-	void updateMatrix(float FOVdegree, float nearPlaneDistance, float farPlaneDistance);
+	void updateMatrix();
 	// exports the camera matrix to a shader
 	void Matrix(Shader &shader, const char* uniform);
-	void Inputs(GLFWwindow* window);
+	void KeyboardInputs(GLFWwindow* window);
+	void MouseInputs(GLFWwindow* window, double mouseX, double mouseY);
+
+	void BindFrameBuffer();
+
 };
 

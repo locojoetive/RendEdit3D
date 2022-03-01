@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -31,6 +32,7 @@ public:
 	void SetUniform2f(std::string key, glm::vec2 value);
 	void SetUniform3f(std::string key, glm::vec3 value);
 	void SetUniform4f(std::string key, glm::vec4 value);
+	void SetUniformMatrix4f(std::string key, glm::mat4 value);
 
 private:
 	void compileErrors(unsigned int shader, const char* type);

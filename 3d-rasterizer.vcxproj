@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +152,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)imgui</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)imgui;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,11 +163,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Mesh\Mesh.cpp" />
-    <ClCompile Include="src\Camera\Camera.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Scene\Light\Light.cpp" />
+    <ClCompile Include="src\Scene\Camera\FrameBuffer\FrameBuffer.cpp" />
+    <ClCompile Include="src\Scene\Model\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Scene\Camera\Camera.cpp" />
     <ClCompile Include="Libraries\include\stb\std.cpp" />
-    <ClCompile Include="src\Model\Model.cpp" />
-    <ClCompile Include="src\Shader\EBO\ElementBufferObject.cpp" />
+    <ClCompile Include="src\Scene\Model\Model.cpp" />
+    <ClCompile Include="src\Scene\Shader\EBO\ElementBufferObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -176,18 +179,21 @@
     <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\Shader\Shader.cpp" />
+    <ClCompile Include="src\Scene\Shader\Shader.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Shader\VBO\VertexBufferObject.cpp" />
-    <ClCompile Include="src\Shader\VAO\VertexArrayObject.cpp" />
-    <ClCompile Include="src\Texture\Texture.cpp" />
+    <ClCompile Include="src\Scene\Shader\VBO\VertexBufferObject.cpp" />
+    <ClCompile Include="src\Scene\Shader\VAO\VertexArrayObject.cpp" />
+    <ClCompile Include="src\Scene\Texture\Texture.cpp" />
+    <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Mesh\Mesh.h" />
-    <ClInclude Include="src\Camera\Camera.h" />
-    <ClInclude Include="src\Model\Model.h" />
-    <ClInclude Include="src\SimpleShapes.h" />
-    <ClInclude Include="src\Shader\EBO\ElementBufferObject.h" />
+    <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Light.h" />
+    <ClInclude Include="include\FrameBuffer.h" />
+    <ClInclude Include="include\Mesh.h" />
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Model.h" />
+    <ClInclude Include="include\ElementBufferObject.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -197,10 +203,13 @@
     <ClInclude Include="imgui\imstb_rectpack.h" />
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
-    <ClInclude Include="src\Shader\Shader.h" />
-    <ClInclude Include="src\Shader\VBO\VertexBufferObject.h" />
-    <ClInclude Include="src\Shader\VAO\VertexArrayObject.h" />
-    <ClInclude Include="src\Texture\Texture.h" />
+    <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\Vertex.h" />
+    <ClInclude Include="include\VertexBufferObject.h" />
+    <ClInclude Include="include\VertexArrayObject.h" />
+    <ClInclude Include="include\SimpleShapes.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\default.vert" />

@@ -1,6 +1,6 @@
 #pragma once
 #include <glad/glad.h>
-#include "../Shader/Shader.h"
+#include "Shader.h"
 
 class Texture
 {
