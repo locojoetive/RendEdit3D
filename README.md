@@ -3,18 +3,22 @@
 I created this project to gain experience with Dear ImGUI in combination with GLFW.
 Throughout its development this Readme will grow and evolve to capture all implemented features and all requirements to setup and build the project
 
-A lot of this project is inspired by [Victor Gordan](https://www.youtube.com/channel/UC8WizezjQVClpWfdKMwtcmw).
+A lot of this project is inspired by [Victor Gordan](https://www.youtube.com/channel/UC8WizezjQVClpWfdKMwtcmw) and [The Cherno](https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2)
 
 ### 2. Features
 
-This project will have the following features:
+This project provides the following features:
 
 1. Load and display 3D models
-2. Create multiple light sources
-3. Support directional-, point- and spot light
-4. Support user inputs to move around the scene
-5. Move, Rotate, and Scale the models
-6. Load and apply a given texture and specular map to the model
+2. Move around the scene using keyboard and mouse inputs
+3. Move, Rotate, and Scale the models
+
+Following features will be added in the future:
+
+1. Create multiple light sources
+2. Support directional-, point- and spot light
+3. Load and apply a given texture and specular map to the model
+4. Support various kernels for the frame buffer
 
 ## 2. Requirements
 
