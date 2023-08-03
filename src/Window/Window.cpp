@@ -187,7 +187,7 @@ void Window::RenderImGUI()
 				scene->selectedModel->setRotation(rotation);
 				scene->arrow->setRotation(rotation);
 
-				ImGui::SliderFloat3("Scale XYZ", &scale[0], 0.001f, 1.f);
+				ImGui::SliderFloat3("Scale XYZ", &scale[0], 0.001f, 10.f);
 				scene->selectedModel->setScale(scale);
 				scene->arrow->setScale(scale);
 			}

@@ -24,7 +24,7 @@ private:
 	// test attributes
 	float position[3] = { 0.f, 0.f, 0.f };
 	float rotation[3] = { 0.f, 0.f, 0.f };
-	float scale[3] = { 1.f, 1.f, 1.f };
+	std::vector<float> scale = { 1.f, 1.f, 1.f };
 	float cameraSpeed = 1.f;
 	float lightColor[4] = { 1.f, 1.f, 1.f, 1.f };
 	// TODO: replace with relative path

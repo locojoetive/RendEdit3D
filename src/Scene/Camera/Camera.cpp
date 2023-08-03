@@ -41,29 +41,35 @@ void Camera::Matrix(Shader& shader, const char* uniform)
 void Camera::KeyboardInputs(GLFWwindow* window)
 {
 	// handles keyboard inputs
+	float resultSpeed = speed;
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		resultSpeed *= 4.f;
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		position += speed * forward;
+		position += resultSpeed * forward;
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		position -= speed * right;
+		position -= resultSpeed * right;
 	}
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		position -= speed * forward;
+		position -= resultSpeed * forward;
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		position += speed * right;
+		position += resultSpeed * right;
 	}
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 	{
-		position -= speed * up;
+		position -= resultSpeed * up;
 	}
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 	{
-		position += speed * up;
+		position += resultSpeed * up;
 	}
 
 }

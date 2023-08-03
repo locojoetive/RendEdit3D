@@ -16,7 +16,7 @@ public:
 	void Draw(Shader& shader, Camera& camera);
 	void setPosition(float _position[3]);
 	void setRotation(float _rotation[3]);
-	void setScale(float _scale[3]);
+	void setScale(std::vector<float> _scale);
 
 	glm::vec3 getPosition();
 	glm::vec3 getRotation();

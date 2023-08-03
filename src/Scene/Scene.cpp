@@ -21,6 +21,7 @@ void Scene::UpdateScene()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
+	arrow->Draw(*defaultShader, *camera);
 	defaultShader->Activate();
 	defaultShader->SetUniform4f("lightColor", light.getColor());
 	defaultShader->SetUniform1f("near", camera->nearClipDistance);
@@ -29,7 +30,6 @@ void Scene::UpdateScene()
 	{
 		m.Draw(*defaultShader, *camera);
 	}
-	arrow->Draw(*defaultShader, *camera);
 
 	// updates and exports the camera matrix to the vertex shader
 	camera->updateMatrix();

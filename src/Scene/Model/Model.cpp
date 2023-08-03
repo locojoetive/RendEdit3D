@@ -40,7 +40,7 @@ void Model::setRotation(float _rotation[3])
 	));
 }
 
-void Model::setScale(float _scale[3])
+void Model::setScale(std::vector<float> _scale)
 {
 	scale = glm::vec3(_scale[0], _scale[1], _scale[2]);
 }
