@@ -7,11 +7,14 @@ A lot of this project is inspired by [Victor Gordan](https://www.youtube.com/cha
 
 ### 2. Features
 
+![](https://github.com/locojoetive/Simple-Renderer/blob/main/docs/rasterizer.gif)
+
 This project provides the following features:
 
 1. Load and display 3D models
 2. Move around the scene using keyboard and mouse inputs
 3. Move, Rotate, and Scale the models
+
 
 Following features will be added in the future:
 
