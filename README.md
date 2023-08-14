@@ -1,7 +1,7 @@
-## 1. The Project: 3d-rasterizer
+## 1. 3D Rasterizer
 
-I created this project to gain experience with Dear ImGUI in combination with GLFW.
-Throughout its development this Readme will grow and evolve to capture all implemented features and all requirements to setup and build the project
+This project is implemented using C++, Dear ImGUI and GLFW.
+This document aims to clarify how to setup and build the project.
 
 A lot of this project is inspired by [Victor Gordan](https://www.youtube.com/channel/UC8WizezjQVClpWfdKMwtcmw) and [The Cherno](https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2)
 
@@ -14,14 +14,6 @@ This project provides the following features:
 1. Load and display 3D models
 2. Move around the scene using keyboard and mouse inputs
 3. Move, Rotate, and Scale the models
-
-
-Following features will be added in the future:
-
-1. Create multiple light sources
-2. Support directional-, point- and spot light
-3. Load and apply a given texture and specular map to the model
-4. Support various kernels for the frame buffer
 
 ## 2. Requirements
 
@@ -45,6 +37,3 @@ This project is a C++ project created with the following setup:
 ### 2.4. Libs
 - glfw3.lib (from GLFW source)
 - opengl32.lib (included in Windows OS)
-
-
-This is it for now.
