@@ -1,19 +1,18 @@
 ## 1. 3D Rasterizer
 
-This project is implemented using C++, Dear ImGUI and GLFW.
-This document aims to clarify how to setup and build the project.
+This project is implemented using C++, Dear ImGUI and GLFW, and provides the following features:
+
+1. Load and display multiple 3D models
+2. Move around the scene using keyboard and mouse inputs
+3. Move, Rotate, and Scale the models
+
+
+This document aims to clarify how to setup, build, and use the tool.
 
 A lot of this project is inspired by [Victor Gordan](https://www.youtube.com/channel/UC8WizezjQVClpWfdKMwtcmw) and [The Cherno](https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2)
 
-### 2. Features
-
 ![](https://github.com/locojoetive/Simple-Renderer/blob/main/docs/rasterizer.gif)
 
-This project provides the following features:
-
-1. Load and display 3D models
-2. Move around the scene using keyboard and mouse inputs
-3. Move, Rotate, and Scale the models
 
 ## 2. Requirements
 
