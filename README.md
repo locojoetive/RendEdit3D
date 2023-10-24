@@ -1,6 +1,6 @@
-## 1. 3D Rasterizer
+## 1. RendEdit3D
 
-This project is implemented using C++, Dear ImGUI and GLFW, and provides the following features:
+This project is implemented using C++, Dear ImGUI and GLFW (OpenGL), and provides the following features:
 
 1. Load and display multiple 3D models
 2. Move around the scene using keyboard and mouse inputs
